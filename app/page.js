@@ -33,7 +33,9 @@ export default function Home() {
       <div className="flex flex-col lg:gap-7 gap-5 items-center justify-center lg:w-[50vw] md:w-[70vw] text-center">
       <h1 className="lg:text-6xl text-3xl md:text-5xl font-bold">Turn your creativity into income in minutes.</h1>
       <p className="lg:text-3xl text-lg md:text-2xl text-[#575757] font-semibold">Sell with UPI, get paid instantly</p>
+     <SignUpButton> 
       <button className="bg-[#3B82F6] hover:bg-[#3675db] active:bg-[#297bff] cursor-pointer text-white px-5 py-3 rounded-full lg:text-2xl text-xl lg:w-1/2 md:w-1/2 font-semibold my-3">Start selling for free</button>
+      </SignUpButton>
       </div>
     </main>
    </div>
