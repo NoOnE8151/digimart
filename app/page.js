@@ -1,4 +1,5 @@
 import { Menu } from 'lucide-react';
+import { SignInButton, SignOutButton, SignUpButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 
 export default function Home() {
   return (
@@ -15,8 +16,14 @@ export default function Home() {
       </nav>
 
       <div className="lg:flex hidden items-center gap-5 w-[15%]">
+        <SignedOut>
+          <SignInButton>
         <button className="bg-[#ECECEC] hover:bg-[#e1e1e1] active:bg-[#eeeeee] px-5 py-2 w-1/2 rounded-full font-semibold shadow cursor-pointer">Login</button>
+          </SignInButton>
+          <SignUpButton>
         <button className="bg-[#3B82F6] hover:bg-[#3675db] active:bg-[#297bff] text-white px-5 py-2 w-1/2 rounded-full font-semibold shadow cursor-pointer ">Sign&nbsp;Up</button>
+          </SignUpButton>
+        </SignedOut>
       </div>
 
       <button className='lg:hidden'><Menu /></button>
