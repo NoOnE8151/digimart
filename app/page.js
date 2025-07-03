@@ -1,5 +1,6 @@
 import { Menu } from 'lucide-react';
 import { SignInButton, SignOutButton, SignUpButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
+import { Button } from '@/components/ui/button';
 
 export default function Home() {
   return (
@@ -36,6 +37,7 @@ export default function Home() {
      <SignUpButton> 
       <button className="bg-[#3B82F6] hover:bg-[#3675db] active:bg-[#297bff] cursor-pointer text-white px-5 py-3 rounded-full lg:text-2xl text-xl lg:w-1/2 md:w-1/2 font-semibold my-3">Start selling for free</button>
       </SignUpButton>
+      <Button>hllo</Button>
       </div>
     </main>
    </div>
