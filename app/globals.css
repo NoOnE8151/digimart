@@ -3,27 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* designing the home/landing page animation/background */
-body {
-  margin: 0;
-  height: 100vh;
-  background-size: 600% 600%;
-  animation: gradientFlow 12s ease infinite;
-}
-
-/* Keyframes for clear, smooth gradient animation */
-@keyframes gradientFlow {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -131,12 +110,49 @@ body {
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+
+/* Gradient background setup */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background: linear-gradient(-45deg, #E3FBFF, #BBE0EF, #A1C6DB);
+  background-size: 600% 600%;
+  animation: gradientFlow 12s ease infinite;
+  color: var(--foreground);
+}
+
+/* Ensure Next.js wrapper doesn't cover the background */
+#__next {
+  background: transparent;
+  min-height: 100vh;
+}
+
+/* Alternative for app directory */
+html > body > div {
+  background: transparent;
+  min-height: 100vh;
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply text-foreground;
-    /* Removed bg-background to preserve your custom gradient */
-  }
+}
+
+/* hide scrollbar */
+body::-webkit-scrollbar {
+  display: none;
 }
