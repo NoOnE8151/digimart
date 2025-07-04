@@ -110,15 +110,15 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-
 /* Gradient background setup */
 html, body {
   margin: 0;
   padding: 0;
-  height: 100vh;
-  background: linear-gradient(-45deg, #E3FBFF, #BBE0EF, #A1C6DB);
-  background-size: 600% 600%;
-  animation: gradientFlow 12s ease infinite;
+  min-height: 100vh;
+  background-color: var(--background);
+  /* background: linear-gradient(-45deg, #E3FBFF, #BBE0EF, #A1C6DB); */
+  /* background-size: 600% 600%; */
+  /* animation: gradientFlow 12s ease infinite; */
   color: var(--foreground);
 }
 
@@ -134,7 +134,7 @@ html > body > div {
   min-height: 100vh;
 }
 
-@keyframes gradientFlow {
+/* @keyframes gradientFlow {
   0% {
     background-position: 0% 50%;
   }
@@ -144,7 +144,7 @@ html > body > div {
   100% {
     background-position: 0% 50%;
   }
-}
+} */
 
 @layer base {
   * {
@@ -155,4 +155,13 @@ html > body > div {
 /* hide scrollbar */
 body::-webkit-scrollbar {
   display: none;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

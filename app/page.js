@@ -30,7 +30,7 @@ export default function Home() {
     </header>
 
     <main className="flex flex-col items-center lg:justify-center justify-start relative top-[20vh] lg:top-0 lg:h-[90vh] h-[97vh] px-3 ">
-      <div className="flex flex-col lg:gap-7 gap-5 items-center justify-center lg:w-[50vw] md:w-[70vw] text-center">
+      <div className="flex flex-col lg:gap-7 gap-5 items-center justify-center lg:w-[50vw] md:w-[70vw] text-center bg-card">
       <h1 className="lg:text-6xl text-3xl md:text-5xl font-bold">Turn your creativity into income in minutes.</h1>
       <p className="lg:text-3xl text-lg md:text-2xl text-[#575757] font-semibold">Sell with UPI, get paid instantly</p>
      <SignUpButton> 
