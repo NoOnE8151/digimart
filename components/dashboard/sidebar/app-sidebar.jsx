@@ -42,7 +42,7 @@ const data = {
     },
     {
       title: "Products",
-      url: "#",
+      url: "/dashboard/products",
       icon: PackageSearch,
     },
     {
