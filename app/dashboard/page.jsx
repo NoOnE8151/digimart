@@ -1,5 +1,6 @@
-import { AppSidebar } from "@/components/app-sidebar"
-import { SiteHeader } from "@/components/site-header"
+import { AppSidebar } from "@/components/dashboard/sidebar/app-sidebar"
+import { SiteHeader } from "@/components/dashboard/sidebar/site-header"
+import { ChartAreaInteractive } from "@/components/dashboard/overview/earnings chart"
 import {
   SidebarInset,
   SidebarProvider,
@@ -17,14 +18,33 @@ export default function Page() {
         <div className="flex flex-1">
           <AppSidebar />
           <SidebarInset>
-            <div className="flex flex-1 flex-col gap-4 p-4 mt-[4rem]">
-              <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                <div className="bg-muted/50 aspect-video rounded-xl" />
-                <div className="bg-muted/50 aspect-video rounded-xl" />
-                <div className="bg-muted/50 aspect-video rounded-xl" />
-              </div>
-              <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
-            </div>
+            <div className="grid auto-rows-min gap-4 md:grid-cols-3 mt-[5rem] mx-5">
+  <div className="bg-muted/50 aspect-video rounded-xl flex flex-col gap-5 p-5 border-[1px] border-gray-300">
+  <img src="/assets/dashboard/profit.png" alt="profit icon" className="w-[4rem]" />
+  <div className="flex flex-col gap-3">
+    <h2 className="text-xl font-semibold">Total Earnings</h2>
+    <div className="text-3xl font-bold">₹0.00</div>
+  </div>
+  </div>
+  <div className="bg-muted/50 aspect-video rounded-xl flex flex-col gap-5 p-5 border-[1px] border-gray-300">
+  <img src="/assets/dashboard/box.png" alt="box icon" className="w-[4rem]" />
+  <div className="flex flex-col gap-3">
+     <h2 className="text-xl font-semibold">Total Products</h2>
+    <div className="text-3xl font-bold">0</div>
+  </div>
+  </div>
+  <div className="bg-muted/50 aspect-video rounded-xl flex flex-col gap-5 p-5 border-[1px] border-gray-300">
+  <img src="/assets/dashboard/customers.png" alt="customers icon" className="w-[4rem]" />
+  <div className="flex flex-col gap-3">
+     <h2 className="text-xl font-semibold">Total Customers</h2>
+    <div className="text-3xl font-bold">0</div>
+  </div>
+  </div>
+  <div className="md:w-[81vw] w-[90vw]">
+  <ChartAreaInteractive />
+  </div>
+</div>
+
           </SidebarInset>
         </div>
       </SidebarProvider>

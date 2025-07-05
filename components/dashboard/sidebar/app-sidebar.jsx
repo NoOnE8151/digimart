@@ -14,9 +14,9 @@ import {
    CircleDollarSign,  
 } from "lucide-react"
 
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
+import { NavMain } from "@/components/dashboard/sidebar/nav-main"
+import { NavSecondary } from "@/components/dashboard/sidebar/nav-secondary"
+import { NavUser } from "@/components/dashboard/sidebar/nav-user"
 import {
   Sidebar,
   SidebarContent,
@@ -36,60 +36,23 @@ const data = {
   navMain: [
     {
       title: "Overview",
-      url: "#",
       icon: PanelsTopLeft,
+      url: '/dashboard',
       isActive: true,
-      items: [
-        {
-          title: "Earnings",
-          url: "#",
-        },
-        {
-          title: "Sales",
-          url: "#",
-        },
-        {
-          title: "Top Products",
-          url: "#",
-        },
-      ],
     },
     {
       title: "Products",
       url: "#",
       icon: PackageSearch,
-      items: [
-        {
-          title: "Manage",
-          url: "#",
-        }
-      ],
     },
     {
       title: "Shop",
       url: "#",
       icon: Store,
-      items: [
-        {
-          title: "View Store",
-          url: "#",
-        },
-        {
-          title: "Customize",
-          url: "#",
-        }, {
-          title: "Themes",
-          url: "#"
-        }
-      ],
     },{
       title: "Payouts",
       url: "#",
       icon: CircleDollarSign,
-      items: [{
-        title: "History",
-        url: "#"
-      }]
     },{
       title: "Settings",
       url: "#",
@@ -144,7 +107,7 @@ export function AppSidebar({
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <a href="/" >
                 <img src="/assets/logo/logo.png" alt="logo" className="w-[2.5rem]" />
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate text-lg font-semibold">Digimart</span>
