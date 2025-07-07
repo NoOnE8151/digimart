@@ -1,0 +1,19 @@
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.fade-in-out {
+  animation: fadeInOut 1.5s ease-in-out infinite;
+}
+
+.loader {
+  animation: spin 1s linear infinite;   
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
