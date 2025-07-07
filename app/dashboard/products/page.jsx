@@ -82,7 +82,7 @@ const handlePopup = (text) => {
 
 
   return (
-    <div className="grid justify-items-center py-[3rem] h-full relative">
+    <div className="grid justify-items-center py-[3rem] h-full relative px-7">
   <div className="w-full md:w-[55%] flex flex-col gap-7 py-10">
     <div className="flex items-center justify-between">
     <h1 className="text-xl font-semibold">Your Products</h1>
@@ -90,23 +90,23 @@ const handlePopup = (text) => {
     </div>
     {/* product list */}
     {productList?.map((product, idx) => {
-      return <div key={product._id} className="flex items-center justify-between border-[1px] border-gray-300 rounded-sm p-5 relative">
-        <div className="flex items-center gap-5">
-        <img src={product.thumbnail.url ? product.thumbnail.url : product.type === 'document' ? '/assets/product icons/document.jpg' : product.type === 'video' ? '/assets/product icons/video.jpg' : product.type === 'audio' ? '/assets/product icons/audio.jpg' : '/assets/product icons/image.jpg'} alt="thumbnail" className="w-[5rem] rounded-lg" />
+      return <div key={product._id} className="flex items-center justify-between border-[1px] border-gray-300 rounded-sm md:p-5 p-2 relative">
+        <div className="flex items-center md:gap-5 gap-3">
+        <img src={product.thumbnail.url ? product.thumbnail.url : product.type === 'document' ? '/assets/product icons/document.jpg' : product.type === 'video' ? '/assets/product icons/video.jpg' : product.type === 'audio' ? '/assets/product icons/audio.jpg' : '/assets/product icons/image.jpg'} alt="thumbnail" className="max-w-[4rem] md:w-[5rem] rounded-lg" />
 
 
         <div>
-        <h2 className="font-semibold">{product.title}</h2>
-        <div className="font-semibold">Price: ₹{product.price}</div>
+        <h2 className="font-semibold text-sm md:text-md">{product.title}</h2>
+        <div className="font-semibold text-sm md:text-md">Price: ₹{product.price}</div>
         </div>
         </div>
 
-        <div className="flex items-center gap-5 px-5">
-          <div className="text-gray-500">Total Sales {product.sales}</div>
-          <button onClick={() => toggleMenu(idx)} className="cursor-pointer"><Ellipsis /></button>
+        <div className="flex items-center md:gap-5 gap-3 px-3 md:px-5">
+          <div className="text-gray-500"><span className="md:block hidden">Total Sales</span> {product.sales}</div>
+          <button onClick={() => toggleMenu(idx)} className="cursor-pointer"><Ellipsis className="w-5" /></button>
         </div>
 
-        { menuIdx === idx && <ul className="bg-background list-none m-0 p-0 flex flex-col absolute bottom-[-3rem] right-[-2rem] border-border border-2 w-[17%] min-h-[70%] z-50 rounded">
+        { menuIdx === idx && <ul className="bg-background list-none m-0 p-0 flex flex-col absolute bottom-[-3rem]  right-5 md:right-[-2rem] border-border border-2 min-w-[35%] md:min-w-[17%] min-h-[85%] md:min-h-[70%] z-50 rounded">
   <li onClick={() => {setMenuIdx(null); handleEditProduct(product)}} className="hover:bg-muted cursor-pointer w-full flex-1 flex items-center px-3 border-b-[1px] border-border">Edit</li>
   <li onClick={() => {setMenuIdx(null); handleDeleteProduct(product._id)}} className="hover:bg-muted cursor-pointer w-full flex-1 flex items-center px-3 text-red-500">Delete</li>
 </ul>}

@@ -247,10 +247,10 @@ const addProduct = async (data) => {
 
   return (
     <div className="absolute w-[100vw] bg-background min-h-[100vh] flex py-[5rem] justify-center">
-      <form onSubmit={handleSubmitProduct(addProduct)} className="bg-background border-[1px] border-gray-400 absolute w-[45%] p-7 rounded-lg flex flex-col gap-5 ">
+      <form onSubmit={handleSubmitProduct(addProduct)} className="bg-background md:border-[1px] md:border-gray-400 absolute md:w-[45%] p-7 rounded-lg flex flex-col gap-5 ">
         <h1 className="text-xl font-semibold">Adding a product</h1>
 
-        <div className="w-[92%] flex flex-col gap-7">
+        <div className="md:w-[92%] flex flex-col gap-7">
           <div className="flex flex-col gap-2">
             <label className="tex-lg font-semibold">Name</label>
             <input
@@ -392,7 +392,7 @@ const addProduct = async (data) => {
             </label>
 
             <div className="flex items-center gap-5">
-              <button onClick={openThumbnailInput} disabled={isThumbnailUploading} type="button" className={`flex flex-col items-center justify-center border-foreground/50 border-2 ${thumbnail.url ? '' : 'border-dashed'} w-[20%] h-[5rem] rounded-lg cursor-pointer hover:bg-input`}>
+              <button onClick={openThumbnailInput} disabled={isThumbnailUploading} type="button" className={`flex flex-col items-center justify-center border-foreground/50 border-2 ${thumbnail.url ? '' : 'border-dashed'} md:w-[20%] w-[30%] h-[5rem] rounded-lg cursor-pointer hover:bg-input`}>
 
                 {!isThumbnailUploading && !thumbnail.url && <div className="flex flex-col items-center">
                 <ImageUp strokeWidth={1.5} className="text-foreground" />
@@ -418,9 +418,12 @@ const addProduct = async (data) => {
                 className="hidden" />
               </button>
 
-              <div>
-                We recommend an image should be square, at least 1080x1080px,
+              <div className="w-[70%] md:w-auto">
+                <span className="md:block hidden">
+                  We recommend an image should be square, at least 1080x1080px,
                 and JPG, PNG or GIF format.
+                  </span>
+                  <span className="md:hidden">Recommended size 1080x1080px</span>
               </div>
             </div>
           </div>
