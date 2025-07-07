@@ -14,8 +14,8 @@ import { deleteFile } from "@/utils/deleteFile";
 import { useForm } from "react-hook-form";
 import { useUser } from "@clerk/nextjs";
 
-const AddProductForm = ({ setIsProductAdding, fetchProductList, handlePopup }) => {
-  const [productType, setProductType] = useState("document");
+const EditProductForm = ({ setIsProductEditing, fetchProductList, productData, handlePopup }) => {
+  const [productType, setProductType] = useState(productData.type);
   const [isProductTypeMenuOpen, setIsProductTypeMenuOpen] = useState(false);
 
   const toggleProductMenu = () => {
@@ -34,10 +34,9 @@ const AddProductForm = ({ setIsProductAdding, fetchProductList, handlePopup }) =
     productInputRef.current?.click();
   };
 
-  const [product, setProduct] = useState({ url: '', publicId: '' });
+  const [product, setProduct] = useState({ url: productData.product.url, publicId: productData.product.publicId });
 const [uploadProgress, setUploadProgress] = useState(0);
 const [isUploading, setIsUploading] = useState(false);
-
 const uploadIntervalRef = useRef(null);
 
 // Start fake progress when isUploading is true
@@ -125,7 +124,7 @@ const openThumbnailInput = () => {
 }
 
 const [isThumbnailUploading, setIsThumbnailUploading] = useState(false);
-const [thumbnail, setThumbnail] = useState({ url: '', publicId: ''});
+const [thumbnail, setThumbnail] = useState({ url: productData.thumbnail.url || '', publicId: productData.thumbnail.publicId || ''});
 
 const handleThumbnailUpload = async (e) => {
   setIsThumbnailUploading(true);
@@ -152,27 +151,7 @@ const handleThumbnailUpload = async (e) => {
   setIsThumbnailUploading(false);
 }
 
-//delete files when page refreshes before submitting form
-useEffect(() => {
-  const handleBeforeUnload = () => {
-    const filesToDelete = [
-      { publicId: product.publicId, resourceType: productType === 'audio' || productType === 'video' ? 'video' : productType === 'image' ? 'image' : 'raw' },
-      { publicId: thumbnail.publicId, resourceType: 'image' },
-    ].filter(file => file.publicId);  // remove items without publicId
-
-    if (filesToDelete.length > 0) {
-      const data = JSON.stringify({ files: filesToDelete });
-      navigator.sendBeacon('/api/cloudinary/delete', data);
-    }
-  };
-
-  window.addEventListener('beforeunload', handleBeforeUnload);
-  return () => {
-    window.removeEventListener('beforeunload', handleBeforeUnload);
-  };
-}, [product.publicId, productType, thumbnail.publicId]);
-
-const [categories, setCategories] = useState([]);
+const [categories, setCategories] = useState(productData.categories);
 const [categoryError, setCategoryError] = useState(false);
 //form for adding categories
 const {
@@ -208,7 +187,13 @@ const {
     watch: watchProduct,
     reset: resetProductForm,
     formState:{errors: productErrors}
-} = useForm();
+} = useForm({
+    defaultValues: {
+        title: productData.title,
+        description: productData.description,
+        price: productData.price,
+    }
+});
 
 const titleInput = watchProduct('title');
 const descriptionInput = watchProduct('description');
@@ -225,11 +210,12 @@ const addProduct = async (data) => {
     thumbnail: thumbnail,
     userId: user.id,
     type: productType,
-    categories
+    categories,
+    productId: productData._id
   }
   console.log(payload);
   
-  const res = await fetch('/api/product/add', {
+  const res = await fetch('/api/product/edit', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -237,18 +223,18 @@ const addProduct = async (data) => {
     body: JSON.stringify(payload)
   })
   const r = await res.json();
-  console.log('added product', r);
+  console.log('edited product', r);
   resetProductForm();
-  setIsProductAdding(false);
+  setIsProductEditing(false);
   fetchProductList(user.id);
   window.scrollTo({ top: 0, behavior: 'auto' });
-  handlePopup('Added product successfull!')
+  handlePopup('Edited product successfully!')
 }
 
   return (
     <div className="absolute w-[100vw] bg-background min-h-[100vh] flex py-[5rem] justify-center">
       <form onSubmit={handleSubmitProduct(addProduct)} className="bg-background border-[1px] border-gray-400 absolute w-[45%] p-7 rounded-lg flex flex-col gap-5 ">
-        <h1 className="text-xl font-semibold">Adding a product</h1>
+        <h1 className="text-xl font-semibold">Editing {productData.title}</h1>
 
         <div className="w-[92%] flex flex-col gap-7">
           <div className="flex flex-col gap-2">
@@ -465,17 +451,17 @@ const addProduct = async (data) => {
         {productErrors.checkbox && <p className="text-red-500">{productErrors.checkbox.message}</p>}
 
         <button
-          onClick={() => { setIsProductAdding(false); resetProductForm();}}
+          onClick={() => { setIsProductEditing(false); resetProductForm();}}
           type="button"
           className="absolute right-0 top-0 p-5 cursor-pointer"
         >
           <X />
         </button>
 
-        <input disabled={isUploading || isThumbnailUploading} type="submit" value={'Add This Product'} className={`py-2 px-5 rounded-full font-semibold text-white text-lg  ${isUploading || isThumbnailUploading ? 'cursor-not-allowed bg-element/70' : 'cursor-pointer bg-element '}`} />
+        <input disabled={isUploading || isThumbnailUploading} type="submit" value={'Save Changes'} className={`py-2 px-5 rounded-full font-semibold text-white text-lg  ${isUploading || isThumbnailUploading ? 'cursor-not-allowed bg-element/70' : 'cursor-pointer bg-element '}`} />
       </form>
     </div>
   );
 };
 
-export default AddProductForm;
+export default EditProductForm;

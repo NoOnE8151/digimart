@@ -40,6 +40,8 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-element: var(--element);
+  --color-element-hover: var(--element-hover);
+  --color-element-active: var(--element-active);
 }
 
 :root {
@@ -47,6 +49,8 @@
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --element: #3B82F6;
+  --element-hover: #2b6dd7;
+  --element-active: #3780f7;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
