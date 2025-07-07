@@ -1,5 +1,5 @@
 "use client";
-import { Ellipsis, Plus } from "lucide-react"
+import { Ellipsis, Plus, Trash2 } from "lucide-react"
 import AddProductForm from "@/components/dashboard/products/add";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
@@ -30,10 +30,10 @@ export default function Products() {
     fetchProductList(user?.id);
   }, [user?.id]);
 
-  useEffect(()=> {
-    console.log(productList);
-  }, [productList])
-  
+  const [menuIdx, setMenuIdx] = useState(null);
+  const toggleMenu = (idx) => {
+  setMenuIdx(menuIdx === idx ? null : idx);
+};
 
   return (
     <div className="grid justify-items-center py-[3rem] h-full">
@@ -57,8 +57,13 @@ export default function Products() {
 
         <div className="flex items-center gap-5 px-5">
           <div className="text-gray-500">Total Sales {product.sales}</div>
-          <button className="cursor-pointer"><Ellipsis /></button>
+          <button onClick={() => toggleMenu(idx)} className="cursor-pointer"><Ellipsis /></button>
         </div>
+
+        { menuIdx === idx && <ul className="bg-background list-none m-0 p-0 flex flex-col absolute bottom-[-3rem] right-[-2rem] border-border border-2 w-[17%] min-h-[70%] z-50 rounded">
+  <li className="hover:bg-muted cursor-pointer w-full flex-1 flex items-center px-3 border-b-[1px] border-border">Edit</li>
+  <li className="hover:bg-muted cursor-pointer w-full flex-1 flex items-center px-3 text-red-500">Delete</li>
+</ul>}
 
     </div>})}
   </div>
