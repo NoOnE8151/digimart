@@ -5,8 +5,8 @@ import { connectDB } from "@/connections/connectDB";
 export async function POST(request) {
     try {
         await connectDB();
-        const { userId } = await request.json();
-        const productList = await Product.find({ userId });
+        const { username } = await request.json();
+        const productList = await Product.find({ username });
         if (!productList) {
             return NextResponse.json({success: false, message: "this user haven't added any product yet"})
         }

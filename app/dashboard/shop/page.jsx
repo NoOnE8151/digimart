@@ -17,14 +17,13 @@ export default function Products() {
   }
 
   const { user } = useUser()
-  console.log(user)
   const fetchProductList = async (username) => {
     const res = await fetch('/api/product/getList', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username })
+      body: JSON.stringify({username})
     })
     const r = await res.json();
     console.log('product list fetched', r.productList);
@@ -73,7 +72,7 @@ const deleteProduct = async () => {
     body: JSON.stringify({ productId: productToDelete })
   })
   const r = await res.json();
-  fetchProductList(user.name);
+  fetchProductList(user.username);
   setIsDeleting(false);
   setIsDeletePending(false);
 }
@@ -94,8 +93,8 @@ const [isProductLoading, setIsProductLoading] = useState(true);
 
 
   return (
-    <div className="grid justify-items-center gap-3 h-full relative px-7 py-[7rem]">
-  <div className="w-full md:w-[55%] flex flex-col gap-7">
+    <div className="grid justify-items-center py-[3rem] h-full relative px-7">
+  <div className="w-full md:w-[55%] flex flex-col gap-7 py-10">
     <div className="flex items-center justify-between">
     <h1 className="text-xl font-semibold">Your Products</h1>
     <button onClick={showAddProductForm} className="bg-element hover:bg-element-hover active:bg-element-active text-white px-5 py-2 text-sm font-semibold rounded-full flex items-center cursor-pointer"><Plus size={18} />&nbsp;Add Product</button>
@@ -136,8 +135,8 @@ const [isProductLoading, setIsProductLoading] = useState(true);
     {isProductLoading && <div className="py-[10rem]"><Loader text={'Loading Products...'} /></div>}
   </div>
 
-  {isProductAdding && <AddProductForm setIsProductAdding={setIsProductAdding} fetchProductList={fetchProductList} handlePopup={handlePopup} />}
-  {isProductEditing && <EditProductForm setIsProductEditing={setIsProductEditing} fetchProductList={fetchProductList} productData={productToEdit} handlePopup={handlePopup} />}
+  {isProductAdding && <div className="fixed bg-black/50 top-0 bottom-0 right-0 w-[100vw] min-h-[100vh] z-50 left-0 overflow-auto scrollbarHide"><AddProductForm setIsProductAdding={setIsProductAdding} fetchProductList={fetchProductList} handlePopup={handlePopup} /> </div>}
+  {isProductEditing && <div className="fixed bg-black/50 top-0 bottom-0 right-0 w-[100vw] min-h-[100vh] z-50 left-0 overflow-auto scrollbarHide"> <EditProductForm setIsProductEditing={setIsProductEditing} fetchProductList={fetchProductList} productData={productToEdit} handlePopup={handlePopup} /></div>}
 
    {showPopup && <Popup text={popupText} />}
 

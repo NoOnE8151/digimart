@@ -223,7 +223,7 @@ const addProduct = async (data) => {
     ...data,
     product: product,
     thumbnail: thumbnail,
-    userId: user.id,
+    username: user.username,
     type: productType,
     categories
   }
@@ -240,13 +240,13 @@ const addProduct = async (data) => {
   console.log('added product', r);
   resetProductForm();
   setIsProductAdding(false);
-  fetchProductList(user.id);
+  fetchProductList(user.username);
   window.scrollTo({ top: 0, behavior: 'auto' });
   handlePopup('Added product successfull!')
 }
 
   return (
-    <div className="absolute w-[100vw] bg-background min-h-[100vh] flex py-[5rem] justify-center">
+    <div className="absolute w-[100vw] min-h-[100vh] flex py-[5rem] justify-center">
       <form onSubmit={handleSubmitProduct(addProduct)} className="bg-background md:border-[1px] md:border-gray-400 absolute md:w-[45%] p-7 rounded-lg flex flex-col gap-5 ">
         <h1 className="text-xl font-semibold">Adding a product</h1>
 

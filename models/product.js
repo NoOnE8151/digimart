@@ -16,7 +16,7 @@ const ProductSchema = new mongoose.Schema(
       url: { type: String, required: true },
       publicId: { type: String, required: true }
      },
-    userId: { type: String, required: true },
+    username: { type: String, required: true },
     sales: {type: Number, default: 0},
     categories: {type: Array, default: []}
   },

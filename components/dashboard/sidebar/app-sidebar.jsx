@@ -47,7 +47,7 @@ const data = {
     },
     {
       title: "Shop",
-      url: "#",
+      url: "/dashboard/shop",
       icon: Store,
     },{
       title: "Payouts",

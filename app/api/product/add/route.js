@@ -9,7 +9,7 @@ export async function POST(request) {
         console.log('recived data', data)
 
         const product = await Product.create({
-            userId: data.userId,
+            username: data.username,
             title: data.title,
             description: data.description,
             price: data.price,

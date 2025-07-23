@@ -11,7 +11,7 @@ export async function POST(request) {
         const updatedProduct = await Product.findByIdAndUpdate(
             data.productId,
             {
-                userId: data.userId,
+                username: data.username,
                 title: data.title,
                 description: data.description,
                 price: data.price,
