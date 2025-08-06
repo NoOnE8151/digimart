@@ -73,9 +73,6 @@ const PrivacyPolicy = () => {
         <p>This policy may be updated. Changes will be posted on this page.</p>
       </Section>
 
-      <Section title="9. Contact Us">
-        <p>Email us at <strong>[your@email.com]</strong> for any queries.</p>
-      </Section>
     </main>
     </>
   )

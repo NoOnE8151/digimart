@@ -87,11 +87,6 @@ const TOS = () => {
         </p>
       </Section>
 
-      <Section title="10. Contact">
-        <p>
-          Questions? Email us at <strong>[your@email.com]</strong>
-        </p>
-      </Section>
     </main>
 </>
   );
