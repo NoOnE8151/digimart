@@ -51,7 +51,7 @@ const data = {
       icon: Store,
     },{
       title: "Payouts",
-      url: "#",
+      url: "/dashboard/payout",
       icon: CircleDollarSign,
     },{
       title: "Settings",

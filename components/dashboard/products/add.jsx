@@ -219,6 +219,10 @@ const addProduct = async (data) => {
     alert('please upload your product to continue');
     return
   }
+  if(!thumbnail.url) {
+    alert('please upload a featured image to continue')
+    return
+  }
   const payload = {
     ...data,
     product: product,

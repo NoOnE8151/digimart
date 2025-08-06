@@ -1,8 +1,6 @@
-// models/Product.js
-
 import mongoose from "mongoose";
 
-const ProductSchema = new mongoose.Schema(
+const CartSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, trim: true },
     description: { type: String, required: true },
@@ -18,14 +16,12 @@ const ProductSchema = new mongoose.Schema(
      },
     username: { type: String, required: true },
     sales: {type: Number, default: 0},
-    categories: {type: Array, default: []},
-    cart: {type: Array, default: []}
+    categories: {type: Array, default: []}
   },
   {
     timestamps: true,
   }
 );
 
-// Prevent model overwrite in development (Next.js hot reload)
-export default mongoose.models.Product ||
-  mongoose.model("Product", ProductSchema);
+export default mongoose.models.Cart ||
+  mongoose.model("Cart", CartSchema);

@@ -1,7 +1,8 @@
 "use client"
 import React, { useState, useEffect } from "react";
 import Loader from "@/components/ui/loader";
-import { ExternalLink } from "lucide-react";
+import { Car, ExternalLink } from "lucide-react";
+import Cart from "./cart";
 
 const ShopPublicView = ({ children, shop }) => {
 
@@ -61,7 +62,7 @@ const ShopPublicView = ({ children, shop }) => {
           </div>
         </div>
         <hr className="border-border w-full" />
-        <div className="w-full">{children}</div>
+        <div className="w-full">{children}</div>\
       </div>
     </div>
   );

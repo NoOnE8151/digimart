@@ -247,3 +247,39 @@
     stroke-dashoffset: -440;
   }
 }
+
+.fade-in {
+  animation: fade-in 0.5s ease 1;
+  animation-fill-mode: forwards;
+}
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.slide-left {
+  animation: slide-left 0.5s ease 1;
+  animation-fill-mode: forwards;
+}
+@keyframes slide-left {
+  0% { transform: translate(25%); }
+  100% { transform: translate(0%);}
+}
+
+.fade-out {
+  animation: fade-out 0.5s ease 1;
+  animation-fill-mode: forwards;
+}
+@keyframes fade-out {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.slide-right {
+  animation: slide-right 0.5s ease 1;
+  animation-fill-mode: forwards;
+}
+@keyframes slide-right {
+  0% { transform: translate(0%); }
+  100% { transform: translate(25%);}
+}

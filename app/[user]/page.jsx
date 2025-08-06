@@ -48,7 +48,7 @@ const [isProductLoading, setIsProductLoading] = useState(true);
     </div>
     {/* product list */}
     {productList?.map((product, idx) => {
-      return <Link href={`/products/${params.user}/${product._id}`} key={product._id} className="flex items-center justify-between border-[1px] border-gray-300 rounded-sm md:p-5 p-2 relative hover:scale-105 transition-all duration-200 cursor-pointer hover:bg-muted/50">
+      return <a href={`/products/${params.user}/${product._id}`} key={product._id} className="flex items-center justify-between border-[1px] border-gray-300 rounded-sm md:p-5 p-2 relative hover:scale-105 transition-all duration-200 cursor-pointer hover:bg-muted/50">
         <div className="flex items-center md:gap-5 gap-3">
         <img src={product.thumbnail.url ? product.thumbnail.url : product.type === 'document' ? '/assets/product icons/document.jpg' : product.type === 'video' ? '/assets/product icons/video.jpg' : product.type === 'audio' ? '/assets/product icons/audio.jpg' : '/assets/product icons/image.jpg'} alt="thumbnail" className="max-w-[4rem] md:w-[5rem] rounded-lg" />
 
@@ -63,7 +63,7 @@ const [isProductLoading, setIsProductLoading] = useState(true);
           <div className="text-gray-500"> <button className="bg-element px-5 cursor-pointer text-white rounded-full font-semibold py-2">Buy now</button></div>
         </div>
 
-    </Link>})}
+    </a>})}
 
     {/* if no product found */}
     {productList.length < 1 && !isProductLoading && <div className="w-full h-full flex items-center justify-center flex-col gap-3 mb-14">
