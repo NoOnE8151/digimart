@@ -11,9 +11,15 @@ import {
 import Link from "next/link";
 import Loader from "@/components/ui/loader";
 import { deleteFile } from "@/utils/deleteFile";
+import { usePathname } from "next/navigation";
 
 const ShopLayout = ({ children }) => {
   const { user } = useUser();
+  const pathname = usePathname();
+
+      useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   //handling cover image upload
   const [coverImage, setCoverImage] = useState({ url: "", publicId: "" });

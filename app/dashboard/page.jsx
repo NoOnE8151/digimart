@@ -1,6 +1,13 @@
+"use client"
 import { ChartAreaInteractive } from "@/components/dashboard/overview/earnings chart";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Page() {
+  const pathname = usePathname();
+      useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [pathname]);
   return (
     <div className="grid auto-rows-min gap-4 md:grid-cols-3 mx-5 py-20">
       <div className="bg-muted/50 aspect-video rounded-xl flex flex-col gap-5 p-5 border-[1px] border-gray-300 w-[90%] md:w-auto">

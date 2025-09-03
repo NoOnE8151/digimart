@@ -11,6 +11,7 @@ const Product = () => {
   const { user } = useUser();
   const params = useParams();
   const productId = params.product;
+  const merchant = params.user;
 
   const [product, setProduct] = useState({});
   const fetchProduct = async () => {
@@ -103,11 +104,11 @@ const Product = () => {
               className="w-[5rem] rounded-full"
             />
             <nav className="flex items-center gap-5 text-muted-foreground">
-              <Link href="#">view shop</Link>
-              <Link href="#">e books</Link>
-              <Link href="#">videos</Link>
-              <Link href="#">images</Link>
-              <Link href="#">documents</Link>
+              <a href={`/${merchant}`}>view shop</a>
+              <a href="#">e books</a>
+              <a href="#">videos</a>
+              <a href="#">images</a>
+              <a href="#">documents</a>
             </nav>
           </div>
 
@@ -139,6 +140,8 @@ const Product = () => {
                 Buy now
               </button>
               <button
+
+              disabled={product?.cart?.includes(user?.username)}
                 
                 onClick={() => handleAddToCart(product)}
                 className="border-2 border-element text-element px-5 py-3 w-full rounded cursor-pointer hover:bg-background font-semibold text-lg flex items-center justify-center gap-3"

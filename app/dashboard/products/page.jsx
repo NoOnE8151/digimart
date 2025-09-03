@@ -6,11 +6,17 @@ import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import Popup from "@/components/ui/popup";
 import Loader from "@/components/ui/loader";
+import { usePathname } from "next/navigation";
 
 export default function Products() {
   const [isProductAdding, setIsProductAdding] = useState(false);
   const [isProductEditing, setIsProductEditing] = useState(false);
   const [productList, setProductList] = useState([]);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname])
 
   const showAddProductForm = () => {
     setIsProductAdding(true);

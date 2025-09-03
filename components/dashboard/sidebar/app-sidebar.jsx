@@ -1,17 +1,19 @@
 "use client"
 
 import * as React from "react"
+import { useEffect, useState } from "react"
 import {
   PanelsTopLeft,
   PackageSearch,
   Store,
+  ShoppingCart,
   Frame,
   LifeBuoy,
   Map,
   PieChart,
   Send,
   Settings2,
-   CircleDollarSign,  
+  CircleDollarSign
 } from "lucide-react"
 
 import { NavMain } from "@/components/dashboard/sidebar/nav-main"
@@ -26,79 +28,78 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { useUser } from "@clerk/nextjs"
 
-const data = {
-  user: {
-    name: "No OnE",
-    email: "lomash265@gmail.com",
-    avatar: "/avatars/shadcn.jpg",
+const navMain = [
+  {
+    title: "Overview",
+    icon: PanelsTopLeft,
+    url: '/dashboard',
+    isActive: true,
   },
-  navMain: [
-    {
-      title: "Overview",
-      icon: PanelsTopLeft,
-      url: '/dashboard',
-      isActive: true,
-    },
-    {
-      title: "Products",
-      url: "/dashboard/products",
-      icon: PackageSearch,
-    },
-    {
-      title: "Shop",
-      url: "/dashboard/shop",
-      icon: Store,
-    },{
-      title: "Payouts",
-      url: "/dashboard/payout",
-      icon: CircleDollarSign,
-    },{
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "Profile",
-          url: "#",
-        }
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Support",
-      url: "#",
-      icon: LifeBuoy,
-    },
-    {
-      title: "Feedback",
-      url: "#",
-      icon: Send,
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
-}
+  {
+    title: "Products",
+    url: "/dashboard/products",
+    icon: PackageSearch,
+  },
+  {
+    title: "Shop",
+    url: "/dashboard/shop",
+    icon: Store,
+  },
+  {
+    title: "Payouts",
+    url: "/dashboard/payout",
+    icon: CircleDollarSign,
+  },{
+    title: "Marketplace",
+    url: "/marketplace",
+    icon: ShoppingCart
+  },
+  {
+    title: "Settings",
+    url: "#",
+    icon: Settings2,
+    items: [
+      {
+        title: "Profile",
+        url: "#",
+      }
+    ],
+  },
+]
 
-export function AppSidebar({
-  ...props
-}) {
+const navSecondary = [
+  {
+    title: "Support",
+    url: "#",
+    icon: LifeBuoy,
+  },
+  {
+    title: "Feedback",
+    url: "#",
+    icon: Send,
+  },
+]
+
+export function AppSidebar(props) {
+  const { user } = useUser();
+  const [userData, setUserData] = useState({
+    name: '',
+    email: '',
+    avatar: '',
+  });
+
+  useEffect(() => {
+    if (user) {
+      setUserData({
+        name: user.username || `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+        email: user.primaryEmailAddress?.emailAddress || '',
+        avatar: user.imageUrl || '',
+      });
+    }
+  }, [user]);
+
   return (
     <Sidebar
       className="top-(--header-height) h-[calc(100svh-var(--header-height))]!"
@@ -118,11 +119,11 @@ export function AppSidebar({
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavMain items={navMain} />
+        <NavSecondary items={navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={userData} />
       </SidebarFooter>
     </Sidebar>
   );
