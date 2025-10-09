@@ -1,7 +1,15 @@
+"use client"
 import React from 'react'
+import { useEffect } from 'react'
 import ProductCard from '@/components/marketplace/card'
+import { usePathname } from 'next/navigation'
 
 const MarketAll = () => {
+  const pathname = usePathname();
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [pathname])
+
   const produtc1 = {
     title: "Test Product",
     username: 'noone',

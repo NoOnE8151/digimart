@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
 import {
@@ -25,65 +25,58 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-// Base earnings data
-const baseChartData = [
-  { date: "2024-06-26", earnings: 500 },
-  { date: "2024-06-27", earnings: 700 },
-  { date: "2024-06-28", earnings: 400 },
-  { date: "2024-06-29", earnings: 300 },
-  { date: "2024-06-30", earnings: 650 },
-];
+// Example initial empty array, to be fetched from backend
+const baseChartData = []; 
 
 const chartConfig = {
   earnings: { label: "Earnings", color: "var(--chart-green)" },
 };
 
-export function ChartAreaInteractive() {
+export function ChartAreaInteractive({ backendData }) {
   const [timeRange, setTimeRange] = useState("90d");
+  const [data, setData] = useState([]);
 
-  const fullChartData = useMemo(() => {
-    const today = new Date();
-    const lastDateInData = new Date(baseChartData[baseChartData.length - 1].date);
-    const extended = [...baseChartData];
-
-    let current = new Date(lastDateInData);
-    current.setDate(current.getDate() + 1);
-
-    while (current <= today) {
-      extended.push({
-        date: current.toISOString().split("T")[0],
-        earnings: Math.floor(Math.random() * 1000) + 100,
-      });
-      current.setDate(current.getDate() + 1);
-    }
-
-    return extended;
-  }, []);
+  // Map backend data for quick lookup
+  const dataMap = useMemo(() => {
+    const map = {};
+    backendData?.forEach((item) => {
+      map[item.date] = item.earnings;
+    });
+    return map;
+  }, [backendData]);
 
   const referenceDate = useMemo(() => new Date(), []);
 
+  // Generate chart data with all dates in range
   const filteredData = useMemo(() => {
     let daysToSubtract = 90;
     if (timeRange === "30d") daysToSubtract = 30;
     else if (timeRange === "7d") daysToSubtract = 7;
 
     const startDate = new Date(referenceDate);
-    startDate.setDate(referenceDate.getDate() - daysToSubtract);
+    startDate.setDate(referenceDate.getDate() - daysToSubtract + 1);
 
-    return fullChartData.filter((item) => {
-      const date = new Date(item.date);
-      return date >= startDate && date <= referenceDate;
-    });
-  }, [timeRange, referenceDate, fullChartData]);
+    const chartData = [];
+    let current = new Date(startDate);
+
+    while (current <= referenceDate) {
+      const dateStr = current.toISOString().split("T")[0];
+      chartData.push({
+        date: dateStr,
+        earnings: dataMap[dateStr] ?? 0, // use backend data if exists, else 0
+      });
+      current.setDate(current.getDate() + 1);
+    }
+
+    return chartData;
+  }, [timeRange, referenceDate, dataMap]);
 
   return (
     <Card className="pt-0">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
           <CardTitle>Earnings Overview</CardTitle>
-          <CardDescription>
-            Showing your earnings dynamically
-          </CardDescription>
+          <CardDescription>Showing your earnings dynamically</CardDescription>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>
           <SelectTrigger

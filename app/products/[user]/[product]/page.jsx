@@ -6,6 +6,7 @@ import Link from "next/link";
 import { User, ShoppingBag, Check } from "lucide-react";
 import Cart from "@/components/shop/cart";
 import { useUser } from "@clerk/nextjs";
+import PaymentSuccess from "@/components/shop/payment/success";
 
 const Product = () => {
   const { user } = useUser();
@@ -67,29 +68,128 @@ const Product = () => {
   const [isCartClosing, setIsCartClosing] = useState(false);
 
   //fetching cart items
-    //fetching cart items for users
+  //fetching cart items for users
   const [cartItems, setCartItems] = useState([]);
   const fetchCart = async (username) => {
-    const res = await fetch('/api/shop/cart/get', {
-      method: 'POST',
+    const res = await fetch("/api/shop/cart/get", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username })
-    })
+      body: JSON.stringify({ username }),
+    });
     const r = await res.json();
-    console.log('cart items fetched: ', r);
+    console.log("cart items fetched: ", r);
     setCartItems(r.cart);
-  }
+  };
 
   //calculate total price of all items in cart
   const getTotalPrice = () => {
     return cartItems?.reduce((sum, item) => sum + item.price, 0) || 0;
-  }
+  };
 
   useEffect(() => {
     fetchCart(user?.username);
-  }, [user])
+  }, [user]);
+
+  //getting submerchant (razorpay onboared)
+  const [subMerchant, setSubmerchant] = useState({});
+
+  const getSubmerchant = async () => {
+    const res = await fetch("/api/razorpay/getSubMerchant", {
+      method: "POST",
+      headers: {
+        ContentType: "application/json",
+      },
+      body: JSON.stringify({ username: user.username }),
+    });
+    const r = await res.json();
+    setSubmerchant(r.subMerchant);
+  };
+
+  useEffect(() => {
+    if (user) {
+      getSubmerchant();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    console.log(subMerchant);
+  }, [subMerchant]);
+
+  //handling purchase
+  const [showPaymentFailedError, setShowPaymentFailed] = useState(false);
+  const [showPaymentSuccess, setShowPaymentSuccess] = useState(false);
+
+  const [isPaymentPending, setIsPaymentPending] = useState(false);
+  const handlePurchase = async () => {
+    setIsPaymentPending(true);
+    const data = await handleCreateOrder();
+    const options = {
+      key: process.env.NEXT_PUBLIC_RAZORPAY_GATEWAY_KEY,
+      amount: data.amount,
+      currency: data.currency,
+      name: "Digimart",
+      description: "Order Payment",
+      order_id: data.orderId,
+      handler: async function (response) {
+        const res = await fetch("/api/razorpay/verifyPayment", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          }),
+        });
+        const r = await res.json();
+
+        if (!r.success) {
+          setShowPaymentFailed(true);
+          return;
+        }
+
+        //adding product to user's library after successful purchase
+        const libResponse = await fetch('/api/library/add', {
+          'method': 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ product })
+        })
+
+        const jsonRes = await libResponse.json();
+        console.log('product added to library', jsonRes)
+
+        setShowPaymentSuccess(true);
+        return;
+
+      },
+      theme: { color: "#3399cc" },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+    setIsPaymentPending(false);
+  };
+
+  const handleCreateOrder = async () => {
+    const res = await fetch("/api/razorpay/order/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        amount: product.price,
+        merchantId: subMerchant.accountId,
+      }),
+    });
+    const r = await res.json();
+    console.log("order created", r);
+    return r;
+  };
 
   return (
     <div>
@@ -116,7 +216,10 @@ const Product = () => {
             <Link href={"#"}>
               <User />
             </Link>
-            <button onClick={() => setIsCartOpen(true)} className="cursor-pointer">
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="cursor-pointer"
+            >
               <ShoppingBag />
             </button>
           </div>
@@ -136,13 +239,19 @@ const Product = () => {
             </h1>
             <div className="text-lg font-semibold">₹{product.price}</div>
             <div className="flex flex-col items-start gap-3">
-              <button className="bg-element text-white px-5 py-4 w-full rounded cursor-pointer hover:bg-element-hover font-semibold text-lg">
+              <button
+                disabled={isPaymentPending}
+                onClick={handlePurchase}
+                className={`bg-element text-white px-5 py-4 w-full rounded hover:bg-element-hover font-semibold text-lg ${
+                  isPaymentPending
+                    ? "cursor-not-allowed bg-element/90"
+                    : "cursor-pointer"
+                }`}
+              >
                 Buy now
               </button>
               <button
-
-              disabled={product?.cart?.includes(user?.username)}
-                
+                disabled={product?.cart?.includes(user?.username)}
                 onClick={() => handleAddToCart(product)}
                 className="border-2 border-element text-element px-5 py-3 w-full rounded cursor-pointer hover:bg-background font-semibold text-lg flex items-center justify-center gap-3"
               >
@@ -160,11 +269,31 @@ const Product = () => {
           </div>
         </section>
 
-        {isCartOpen && <div className={`bg-black/50 fixed top-0 left-0 right-0 bottom-0 ${isCartClosing ? '' : 'fade-in'} ${isCartClosing ? 'fade-out' : ''}`}>
-        <div className={` ${isCartClosing ? '' : 'slide-left'} ${isCartClosing ? 'slide-right' : ''} h-full`}>
-          <Cart setIsCartOpen={setIsCartOpen} setIsCartClosing={setIsCartClosing} cartItems={cartItems} getTotalPrice={getTotalPrice} fetchCart={fetchCart} productId={productId} fetchProduct={fetchProduct} />
-        </div>
-        </div>}
+        {isCartOpen && (
+          <div
+            className={`bg-black/50 fixed top-0 left-0 right-0 bottom-0 ${
+              isCartClosing ? "" : "fade-in"
+            } ${isCartClosing ? "fade-out" : ""}`}
+          >
+            <div
+              className={` ${isCartClosing ? "" : "slide-left"} ${
+                isCartClosing ? "slide-right" : ""
+              } h-full`}
+            >
+              <Cart
+                setIsCartOpen={setIsCartOpen}
+                setIsCartClosing={setIsCartClosing}
+                cartItems={cartItems}
+                getTotalPrice={getTotalPrice}
+                fetchCart={fetchCart}
+                productId={productId}
+                fetchProduct={fetchProduct}
+              />
+            </div>
+          </div>
+        )}
+
+        {showPaymentSuccess && <PaymentSuccess product={product} setShowPaymentSuccess={setShowPaymentSuccess} />}
       </main>
     </div>
   );

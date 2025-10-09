@@ -94,6 +94,8 @@ const handleProductUpload = async (e) => {
 
   const formData = new FormData();
   formData.append('file', file);
+  formData.append('type', productType === 'document' ? 'raw' : productType === 'image' ? 'image' : 'video'
+  )
   formData.append('folder', productType);
 
   try {

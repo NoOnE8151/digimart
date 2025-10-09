@@ -7,10 +7,8 @@ import {
   PackageSearch,
   Store,
   ShoppingCart,
-  Frame,
+  FolderDown,
   LifeBuoy,
-  Map,
-  PieChart,
   Send,
   Settings2,
   CircleDollarSign
@@ -66,7 +64,11 @@ const navMain = [
         url: "#",
       }
     ],
-  },
+  },{
+    title: "My Orders",
+    url: "/dashboard/library",
+    icon: FolderDown
+  }
 ]
 
 const navSecondary = [

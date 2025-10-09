@@ -33,6 +33,18 @@ const Payout = () => {
   useEffect(() => {
     console.log('submerchant is here', subMerchant)
   }, [subMerchant])
+
+  const handleKYC = async () => {
+    const res = await fetch('/api/razorpay/getOnboardingLink', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ accountId: subMerchant.accountId })
+    })
+    const r = await res.json();
+    console.log("onboarding url fetched: ", r);
+  }
   
   return (
     <div className='grid justify-items-start gap-3 h-full relative px-[7rem] py-[6rem]'>
@@ -44,7 +56,7 @@ const Payout = () => {
         <span className='text-3xl font-bold'>₹0.00</span>
         </div>
         {!subMerchant && !isSubMerchantFetching && <button onClick={() => setIsOnboardFormOpen(true)} className='bg-element text-white font-semibold max-h-[3rem] px-5 rounded-xl cursor-pointer'>Link Account</button>}
-        {subMerchant && <button className='bg-element text-white font-semibold max-h-[3rem] px-5 rounded-xl cursor-pointer'>Withdraw</button>}
+        {subMerchant && <button onClick={handleKYC} className='bg-element text-white font-semibold max-h-[3rem] px-5 rounded-xl cursor-pointer'>Complete KYC</button>}
         
       </div>
         </div>
