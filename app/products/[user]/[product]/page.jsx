@@ -163,8 +163,7 @@ const Product = () => {
         const jsonRes = await libResponse.json();
         console.log("product added to library", jsonRes);
 
-
-       //store user earnings to database if payments verification success
+        //store user earnings to database if payments verification success
         const earningsRes = await fetch("/api/earnings/add", {
           method: "POST",
           headers: {
@@ -179,16 +178,27 @@ const Product = () => {
         const earningsR = await earningsRes.json();
         console.log("earnings stored", earningsR);
 
-      //store buyer to merchant's customer list
-      const customerRes = await fetch('/api/customer/add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ merchant, buyer: user.username })
-      })
-      const customerR = await customerRes.json();
-      console.log('customer strored', customerR)
+        //store buyer to merchant's customer list
+        const customerRes = await fetch("/api/customer/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ merchant, buyer: user.username }),
+        });
+        const customerR = await customerRes.json();
+        console.log("customer strored", customerR);
+
+        //update sale count of purchased product
+        const saleRes = await fetch("/api/product/updateSaleCount", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ productId: product._id, quantity: 1 }),
+        });
+        const saleR = await saleRes.json();
+        console.log("product's sale count updated", saleR);
 
         setShowPaymentSuccess(true);
         return;
