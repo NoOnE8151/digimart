@@ -152,20 +152,46 @@ const Product = () => {
         }
 
         //adding product to user's library after successful purchase
-        const libResponse = await fetch('/api/library/add', {
-          'method': 'POST',
+        const libResponse = await fetch("/api/library/add", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify({ product })
-        })
+          body: JSON.stringify({ product }),
+        });
 
         const jsonRes = await libResponse.json();
-        console.log('product added to library', jsonRes)
+        console.log("product added to library", jsonRes);
+
+
+       //store user earnings to database if payments verification success
+        const earningsRes = await fetch("/api/earnings/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            buyer: user.username,
+            merchant,
+            earnings: product.price - product.price * 0.1,
+          }),
+        });
+        const earningsR = await earningsRes.json();
+        console.log("earnings stored", earningsR);
+
+      //store buyer to merchant's customer list
+      const customerRes = await fetch('/api/customer/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ merchant, buyer: user.username })
+      })
+      const customerR = await customerRes.json();
+      console.log('customer strored', customerR)
 
         setShowPaymentSuccess(true);
         return;
-
       },
       theme: { color: "#3399cc" },
     };
@@ -293,7 +319,12 @@ const Product = () => {
           </div>
         )}
 
-        {showPaymentSuccess && <PaymentSuccess product={product} setShowPaymentSuccess={setShowPaymentSuccess} />}
+        {showPaymentSuccess && (
+          <PaymentSuccess
+            product={product}
+            setShowPaymentSuccess={setShowPaymentSuccess}
+          />
+        )}
       </main>
     </div>
   );
