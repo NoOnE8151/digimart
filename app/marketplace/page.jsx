@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import { useEffect } from 'react'
 import ProductCard from '@/components/marketplace/card'
 import { usePathname } from 'next/navigation'
@@ -10,26 +10,27 @@ const MarketAll = () => {
       window.scrollTo(0, 0);
     }, [pathname])
 
-  const produtc1 = {
-    title: "Test Product",
-    username: 'noone',
-    price: 690,
-    thumbnail: {
-      url: '/assets/test.jpg'
-    }
+  //fetching all products in descending order by sales
+  const [products, setProducts] = useState([]);
+  const fetchProducts = async () => {
+    const res = await fetch('/api/product/getMarketPlace');
+    const r = await res.json();
+    setProducts(r.products)
   }
+  
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   return (
     <>
     <h1 className='text-2xl p-5'>Featured Products</h1>
     <div className='p-5 grid grid-cols-4 gap-5'>
-      <ProductCard product={produtc1} />
-      <ProductCard product={produtc1} />
-      <ProductCard product={produtc1} />
-      <ProductCard product={produtc1} />
-      <ProductCard product={produtc1} />
-      <ProductCard product={produtc1} />
-      <ProductCard product={produtc1} />
-      <ProductCard product={produtc1} />
+      {
+        products.map((product, idx) => {
+          return <ProductCard key={product._id} product={product} />
+        })
+      }
     </div>
     </>
   )
