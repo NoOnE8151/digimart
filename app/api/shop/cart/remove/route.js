@@ -10,12 +10,18 @@ export async function POST(request) {
 
     const cart = await Cart.findByIdAndDelete(data.cartProductId);
 
-    const updatedProduct = await Product.findByIdAndUpdate( data.productId, 
-  { $pull: { cart: data.username } } );
-console.log('product updated', updatedProduct);
+    const updatedProduct = await Product.findByIdAndUpdate(
+      cart.actualProductId,
+      { $pull: { cart: data.username } },
+      { new: true }
+    );
+    console.log("product updated", updatedProduct);
 
-
-    return NextResponse.json({ success: true, message: "succesfully delete item from cart", cart })
+    return NextResponse.json({
+      success: true,
+      message: "succesfully delete item from cart",
+      cart,
+    });
   } catch (error) {
     console.log(error);
     return NextResponse.json({

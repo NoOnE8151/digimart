@@ -14,9 +14,9 @@ export async function POST(request) {
 
     const product = await Product.findById(data._id);
 
-    // if(product.cart.includes(data.visitorName)) {
-    //   return NextResponse.json({ success: false, message: "this product is already in cart" });
-    // }
+    if(product.cart.includes(data.visitorName)) {
+      return NextResponse.json({ success: false, message: "this product is already in cart" });
+    }
 
     const cart = await Cart.create({
       username: data.visitorName,
@@ -33,6 +33,7 @@ export async function POST(request) {
         url: data.thumbnail?.url || null,
         publicId: data.thumbnail?.publicId || null,
       },
+      actualProductId: data._id,
     });
 
      await Product.findByIdAndUpdate(

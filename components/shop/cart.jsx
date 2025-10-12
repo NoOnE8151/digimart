@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import {X} from "lucide-react"
 import { useUser } from '@clerk/nextjs';
 
-const Cart = ({ setIsCartOpen, setIsCartClosing, cartItems, getTotalPrice, fetchCart, productId, fetchProduct }) => {
+const Cart = ({ setIsCartOpen, setIsCartClosing, cartItems, getTotalPrice, fetchCart, fetchProduct }) => {
   const { user } = useUser();
 
   const handleRemoveCartItem = async (cartProductId) => {
@@ -12,7 +12,7 @@ const Cart = ({ setIsCartOpen, setIsCartClosing, cartItems, getTotalPrice, fetch
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ cartProductId, productId, username: user.username })
+      body: JSON.stringify({ cartProductId, username: user.username })
         })
         const r = await res.json();
         fetchCart(user.username);

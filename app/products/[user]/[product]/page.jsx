@@ -322,7 +322,6 @@ const Product = () => {
                 cartItems={cartItems}
                 getTotalPrice={getTotalPrice}
                 fetchCart={fetchCart}
-                productId={productId}
                 fetchProduct={fetchProduct}
               />
             </div>
