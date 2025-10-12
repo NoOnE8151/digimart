@@ -7,11 +7,10 @@ const MarketplaceLayout = ({ children, params }) => {
 
   const categories = [
     { name: 'All', slug: 'all', path: '/marketplace' },
-    { name: 'Design', slug: 'design', path: '/marketplace/design' },
-    { name: 'E-book', slug: 'ebook', path: '/marketplace/ebook' },
-    { name: 'Music', slug: 'music', path: '/marketplace/music' },
+    { name: 'Documents', slug: 'documents', path: '/marketplace/documents' },
+    { name: 'Images', slug: 'images', path: '/marketplace/images' },
+    { name: 'Audios', slug: 'audios', path: '/marketplace/audios' },
     { name: 'Videos', slug: 'videos', path: '/marketplace/videos' },
-    { name: 'Other', slug: 'other', path: '/marketplace/other' },
   ];
 
   return (

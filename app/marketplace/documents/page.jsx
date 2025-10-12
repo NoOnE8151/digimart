@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import ProductCard from '@/components/marketplace/card'
 import { usePathname } from 'next/navigation'
 
-const MarketAll = () => {
+const Documents = () => {
   const pathname = usePathname();
     useEffect(() => {
       window.scrollTo(0, 0);
@@ -15,7 +15,8 @@ const MarketAll = () => {
   const fetchProducts = async () => {
     const res = await fetch('/api/product/getMarketPlace');
     const r = await res.json();
-    setProducts(r.products)
+    const documentProducts = r.products.filter(product => product.type === "document");
+    setProducts(documentProducts)
   }
   
   useEffect(() => {
@@ -24,14 +25,13 @@ const MarketAll = () => {
 
   return (
     <>
-    <h1 className='text-2xl p-5'>Featured Products</h1>
+    <h1 className='text-2xl p-5'>Document Products</h1>
     <div className='p-5 grid grid-cols-4 gap-5'>
       {
         products.map((product, idx) => {
           return <ProductCard key={product._id} product={product} />
         })
       }
-
       {products.length === 0 && <div className='py-20 text-lg text-muted-foreground'>
           Nothing to show here
         </div> }
@@ -40,4 +40,4 @@ const MarketAll = () => {
   )
 }
 
-export default MarketAll
+export default Documents

@@ -53,17 +53,6 @@ const navMain = [
     title: "Marketplace",
     url: "/marketplace",
     icon: ShoppingCart
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings2,
-    items: [
-      {
-        title: "Profile",
-        url: "#",
-      }
-    ],
   },{
     title: "My Orders",
     url: "/dashboard/library",
@@ -72,11 +61,6 @@ const navMain = [
 ]
 
 const navSecondary = [
-  {
-    title: "Support",
-    url: "#",
-    icon: LifeBuoy,
-  },
   {
     title: "Feedback",
     url: "#",

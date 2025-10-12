@@ -9,7 +9,10 @@ const EarningSchema = new mongoose.Schema({
     },
     earnings: { type: Number, default: 0, required: true },
   },
-});
+},
+{
+    timestamps: true
+  });
 
 export default mongoose.models  .Earnings ||
   mongoose.model("Earnings", EarningSchema);

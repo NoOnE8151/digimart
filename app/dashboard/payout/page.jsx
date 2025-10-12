@@ -52,11 +52,10 @@ const Payout = () => {
       <h1 className='text-2xl font-semibold'>Payouts</h1>
       <div className='bg-muted w-full flex justify-between p-8 rounded-lg shadow'>
         <div className='flex flex-col'>
-        <span>Available to withdraw</span>
+        <span className='text-lg font-semibold'>Total Earnings this month</span>
         <span className='text-3xl font-bold'>₹0.00</span>
         </div>
         {!subMerchant && !isSubMerchantFetching && <button onClick={() => setIsOnboardFormOpen(true)} className='bg-element text-white font-semibold max-h-[3rem] px-5 rounded-xl cursor-pointer'>Link Account</button>}
-        {subMerchant && <button onClick={handleKYC} className='bg-element text-white font-semibold max-h-[3rem] px-5 rounded-xl cursor-pointer'>Complete KYC</button>}
         
       </div>
         </div>
