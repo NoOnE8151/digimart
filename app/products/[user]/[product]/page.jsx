@@ -55,7 +55,7 @@ const Product = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...product, visitorName: user.username }), //the product object contains the product's author's username, in cart schema need the visitor's username, the visitorName field contains it
+      body: JSON.stringify({ ...product, visitorName: user.username }),
     });
     const r = await res.json();
     console.log(r.message, r.cart);
@@ -201,6 +201,7 @@ const Product = () => {
         console.log("product's sale count updated", saleR);
 
         setShowPaymentSuccess(true);
+        setIsPaymentPending(false);
         return;
       },
       theme: { color: "#3399cc" },
@@ -208,19 +209,23 @@ const Product = () => {
 
     const rzp = new window.Razorpay(options);
     rzp.open();
-    setIsPaymentPending(false);
   };
 
   const handleCreateOrder = async () => {
+    const cartItems = [
+      {
+        product: {
+          price: product.price,          
+          merchant: subMerchant.accountId
+        }
+      }
+    ];
     const res = await fetch("/api/razorpay/order/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        amount: product.price,
-        merchantId: subMerchant.accountId,
-      }),
+      body: JSON.stringify({ cartItems }),
     });
     const r = await res.json();
     console.log("order created", r);
@@ -249,9 +254,9 @@ const Product = () => {
           </div>
 
           <div className=" flex items-center gap-3 text-muted-foreground">
-            <Link href={"#"}>
+            {/* <Link href={"#"}>
               <User />
-            </Link>
+            </Link> */}
             <button
               onClick={() => setIsCartOpen(true)}
               className="cursor-pointer"

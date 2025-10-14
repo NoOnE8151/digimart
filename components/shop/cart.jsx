@@ -18,6 +18,8 @@ const Cart = ({ setIsCartOpen, setIsCartClosing, cartItems, getTotalPrice, fetch
         fetchCart(user.username);
         fetchProduct();
   }
+
+  //create order for multiple products
   
   
   return (

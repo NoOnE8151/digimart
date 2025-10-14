@@ -3,37 +3,67 @@ import razorpay from "@/library/razorpay";
 
 export async function POST(request) {
   try {
-    const { amount, merchantId } = await request.json();
+    const { cartItems } = await request.json();
 
-    console.log(amount, merchantId);
-
-    if (!amount || amount <= 0 || !merchantId) {
+    // Validate input
+    if (!Array.isArray(cartItems) || cartItems.length === 0) {
       return NextResponse.json({
         success: false,
-        message: "Invalid request parameters",
+        message: "Cart must contain at least one product",
       });
     }
 
-    const amountInPaise = amount * 100;
-    const subMerchantAmount = Math.floor(amountInPaise * 0.9);
+    let totalAmount = 0;
+    const merchantTransfers = {};
 
+    for (const item of cartItems) {
+      const price = item?.product?.price;
+      const merchantId = item?.product?.merchant;
+
+      if (!price || price <= 0 || !merchantId) {
+        return NextResponse.json({
+          success: false,
+          message: "Each product must have a valid price and merchant ID",
+        });
+      }
+
+      const priceInPaise = price * 100;
+      totalAmount += priceInPaise;
+
+      if (!merchantTransfers[merchantId]) {
+        merchantTransfers[merchantId] = 0;
+      }
+
+      merchantTransfers[merchantId] += priceInPaise;
+    }
+
+    if (totalAmount <= 0) {
+      return NextResponse.json({
+        success: false,
+        message: "Invalid total amount",
+      });
+    }
+
+    const transfers = Object.entries(merchantTransfers).map(
+      ([merchantId, amount]) => ({
+        account: merchantId,
+        amount: Math.floor(amount * 0.9), 
+        currency: "INR",
+      })
+    );
+
+    // Create Razorpay order
     const order = await razorpay.orders.create({
-      amount: amountInPaise,
+      amount: totalAmount,
       currency: "INR",
-      transfers: [
-        {
-          account: merchantId,
-          amount: subMerchantAmount,
-          currency: "INR",
-        },
-      ],
+      transfers,
     });
 
     return NextResponse.json({
       success: true,
       orderId: order.id,
-      amount: amountInPaise,
-      currency: 'INR', 
+      amount: totalAmount,
+      currency: "INR",
       message: "Order created successfully",
     });
   } catch (error) {
