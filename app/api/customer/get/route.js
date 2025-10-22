@@ -14,7 +14,7 @@ export async function POST(request) {
             })
         }
         
-        const customers = await Customer.find();
+        const customers = await Customer.findOne({ username: data.username});
         
         return NextResponse.json({
             success: true,

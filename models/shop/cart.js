@@ -17,7 +17,8 @@ const CartSchema = new mongoose.Schema(
     username: { type: String, required: true },
     sales: {type: Number, default: 0},
     categories: {type: Array, default: []},
-    actualProductId: { type: String, required: true } 
+    actualProductId: { type: String, required: true },
+    merchant: { type: String, required: true }
   },
   {
     timestamps: true,

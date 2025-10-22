@@ -4,31 +4,57 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
     try {
-        const { product } = await request.json();
+        const { products } = await request.json(); // expect "products" key
         await connectDB();
 
-        const productToAdd = await Library.create({
-                username: product.username,
-                title: product.title,
-                description: product.description,
-                price: product.price,
+        let productsToAdd;
+
+        if (Array.isArray(products)) {
+            // Multiple products
+            productsToAdd = await Library.insertMany(
+                products.map(product => ({
+                    username: product.username,
+                    title: product.title,
+                    description: product.description,
+                    price: product.price,
+                    thumbnail: {
+                        url: product.thumbnail.url,
+                        publicId: product.thumbnail.publicId
+                    },
+                    type: product.type,
+                    product: {
+                        url: product.product.url,
+                        publicId: product.product.publicId
+                    },
+                }))
+            );
+        } else {
+            // Single product
+            productsToAdd = await Library.create({
+                username: products.username,
+                title: products.title,
+                description: products.description,
+                price: products.price,
                 thumbnail: {
-                    url: product.thumbnail.url,
-                    publicId: product.thumbnail.publicId
+                    url: products.thumbnail.url,
+                    publicId: products.thumbnail.publicId
                 },
-                type: product.type,
+                type: products.type,
                 product: {
-                    url: product.product.url,
-                    publicId: product.product.publicId
-                },      
-        })
+                    url: products.product.url,
+                    publicId: products.product.publicId
+                },
+            });
+        }
 
         return NextResponse.json({
-            success: true, message: "successfully added purchased item to library", product: productToAdd
-        })
+            success: true,
+            message: "Successfully added product(s) to library",
+            product: productsToAdd
+        });
 
-    } catch(error) {
+    } catch (error) {
         console.log(error);
-        return NextResponse.json({ success: false, message: "internal server error" })
+        return NextResponse.json({ success: false, message: "Internal server error" });
     }
 }

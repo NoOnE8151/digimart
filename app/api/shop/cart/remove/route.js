@@ -8,14 +8,18 @@ export async function POST(request) {
     await connectDB();
     const data = await request.json();
 
-    const cart = await Cart.findByIdAndDelete(data.cartProductId);
-
-    const updatedProduct = await Product.findByIdAndUpdate(
-      cart.actualProductId,
-      { $pull: { cart: data.username } },
-      { new: true }
-    );
-    console.log("product updated", updatedProduct);
+    let cart;
+    for (const id of data.productIds) {
+      const cartItem = await Cart.findById(id);
+      
+      //remove username from product's cart field
+      let updatedProduct = await Product.findByIdAndUpdate(
+       cartItem.actualProductId,
+       { $pull: { cart: data.username } },
+       { new: true }
+     );
+       cart = await Cart.findByIdAndDelete(id);
+    }
 
     return NextResponse.json({
       success: true,

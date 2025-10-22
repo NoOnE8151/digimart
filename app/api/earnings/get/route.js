@@ -14,7 +14,7 @@ export async function POST(request) {
             })
         }
         
-        const earnings = await Earnings.find();
+        const earnings = await Earnings.findOne({ username: data.username})
         
         return NextResponse.json({
             success: true,

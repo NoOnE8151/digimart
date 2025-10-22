@@ -11,6 +11,9 @@ export default function Page() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
+  useEffect(() => {
+    console.log('user object is ', user?.username);
+  },[user])
   //get product count of the user
   const [productCount, setProductCount] = useState(0);
   const fetchProductCount = async () => {
@@ -29,7 +32,6 @@ export default function Page() {
 
   //get total earnings of user
   const [earnings, setEarnings] = useState([]); //array of earnings objects with fields {date: ..., earnings: ...}
-  const [formattedEarnings, setFormattedEarnings] = useState([]); //this will contain extracted nested objects from the response to pass to the visual graph
   const [totalEarnings, setTotalEarnings] = useState(0); //sum of earnings
 
   const fetchEarnings = async () => {
@@ -45,30 +47,21 @@ export default function Page() {
     console.log(r);
   };
 
+  useEffect(() => {
+    console.log('earnings are retrived', earnings);
+  }, [earnings]);
+
   //set the total earnings onces array of all earnings are fetched
   useEffect(() => {
-    if (earnings) {
-      let sumOfEarnings = 0;
+  if (earnings?.[0]?.earnings) {
+    const total = earnings[0].earnings.reduce(
+      (acc, item) => acc + item.earnings,
+      0
+    );
+    setTotalEarnings(total);
+  }
+}, [earnings]);
 
-      for (let earning of earnings) {
-        sumOfEarnings += earning.earnings.earnings; //access nested object
-        setTotalEarnings(sumOfEarnings);
-      }
-    }
-  }, [earnings]);
-
-  //extract nested objects from earnings array to pass it to visual graph
-  useEffect(() => {
-    const graphEarnings = earnings.map((item) => ({
-      date: item.earnings.date,
-      earnings: item.earnings.earnings,
-    }));
-    setFormattedEarnings(graphEarnings);
-  }, [earnings]);
-
-  useEffect(() => {
-    console.log('formating earnings',formattedEarnings)
-  }, [formattedEarnings])
 
   //fetch customer list of user
   const [customers, setCustomers] = useState([]);
@@ -88,8 +81,10 @@ export default function Page() {
 
   //setting up total customer count onces customer list is fetched
   useEffect(() => {
-    if(customers.length > 0) {
-      setCustomerCount(customers[0].customerName.length);
+    if(customers) {
+      if(customers.length > 0) {
+        setCustomerCount(customers.customerName.length);
+      }
     }
   }, [customers])
 
@@ -138,7 +133,7 @@ export default function Page() {
         </div>
       </div>
       <div className="md:w-[81vw] w-[90vw]">
-        <ChartAreaInteractive backendData={formattedEarnings} />
+        <ChartAreaInteractive backendData={earnings?.earnings} />
       </div>
     </div>
   );

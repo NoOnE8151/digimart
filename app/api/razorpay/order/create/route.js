@@ -4,6 +4,7 @@ import razorpay from "@/library/razorpay";
 export async function POST(request) {
   try {
     const { cartItems } = await request.json();
+    console.log('recived cart items', cartItems);
 
     // Validate input
     if (!Array.isArray(cartItems) || cartItems.length === 0) {

@@ -5,6 +5,7 @@ import Customer from "@/models/shop/customer";
 export async function POST(request) {
   try {
     const data = await request.json();
+    console.log(data);
     await connectDB();
 
     if (!data.buyer || !data.merchant) {
@@ -15,11 +16,22 @@ export async function POST(request) {
     }
 
     // this will create the document if it doesn't exist, or add to array without duplicates
-    const updatedCustomer = await Customer.findOneAndUpdate(
-      { username: data.merchant },        
-      { $addToSet: { customerName: data.buyer } }, 
-      { upsert: true, new: true }         
-    );
+    let updatedCustomer;
+   if (!data.customers) {
+        updatedCustomer = await Customer.findOneAndUpdate(
+        { username: data.merchant },        
+        { $addToSet: { customerName: data.buyer } }, 
+        { upsert: true, new: true }         
+      );
+    } else {
+      for (const customer of data.customers) {
+        updatedCustomer = await Customer.findOneAndUpdate(
+        { username: customer.merchant },        
+        { $addToSet: { customerName: customer.buyer } }, 
+        { upsert: true, new: true }         
+      );
+      }
+    }
 
     return NextResponse.json({
       success: true,

@@ -50,6 +50,7 @@ const Product = () => {
   }, [product]);
 
   const handleAddToCart = async (product) => {
+    console.log(user.username, "is the username and its loaded");
     const res = await fetch("/api/shop/cart/add", {
       method: "POST",
       headers: {
@@ -157,7 +158,7 @@ const Product = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ product }),
+          body: JSON.stringify({ products: product }),
         });
 
         const jsonRes = await libResponse.json();

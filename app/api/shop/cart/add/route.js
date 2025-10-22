@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import Cart from "@/models/shop/cart";
 import { connectDB } from "@/connections/connectDB";
 import Product from "@/models/product";
+import SubMerchant from "@/models/razorpay/submerchant";
 
 export async function POST(request) {
   try {
@@ -17,6 +18,9 @@ export async function POST(request) {
     if(product.cart.includes(data.visitorName)) {
       return NextResponse.json({ success: false, message: "this product is already in cart" });
     }
+
+    const merchant = await SubMerchant.findOne({ username: data.username });
+    console.log("account id logged", merchant.accountId);
 
     const cart = await Cart.create({
       username: data.visitorName,
@@ -34,6 +38,7 @@ export async function POST(request) {
         publicId: data.thumbnail?.publicId || null,
       },
       actualProductId: data._id,
+      merchant: merchant.accountId
     });
 
      await Product.findByIdAndUpdate(
