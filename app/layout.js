@@ -4,6 +4,7 @@ import "./custom css/animations.css";
 import "./custom css/utils.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Script from "next/script";
+import ScrollToTop from "@/components/scrollToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,6 +22,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  
   return (
     <ClerkProvider>
       <html lang="en">
@@ -33,7 +35,7 @@ export default function RootLayout({ children }) {
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          {children}
+        <ScrollToTop>{children}</ScrollToTop>
         </body>
       </html>
     </ClerkProvider>
