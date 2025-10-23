@@ -24,7 +24,10 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang="en">
         <head>
-          <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+         <Script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        strategy="afterInteractive"
+      />
         </head>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
