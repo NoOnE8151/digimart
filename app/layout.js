@@ -3,6 +3,7 @@ import "./globals.css";
 import "./custom css/animations.css";
 import "./custom css/utils.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

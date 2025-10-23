@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import razorpay from "@/library/razorpay";
-import { currentUser } from "@clerk/nextjs/dist/types/server";
 
 export async function POST(request) {
   try {
