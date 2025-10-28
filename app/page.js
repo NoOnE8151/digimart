@@ -249,8 +249,8 @@ export default function Home() {
     <div>
       <h3 className="text-lg font-semibold mb-3">Legal</h3>
       <ul className="flex flex-col gap-2 text-gray-400 text-sm">
-        <li><a href="/privacy-policy">Privacy Policy</a></li>
-        <li><a href="/terms-of-service">Terms of Service</a></li>
+        <li><Link href="/privacy-policy">Privacy Policy</Link></li>
+        <li><Link href="/terms-of-service">Terms of Service</Link></li>
       </ul>
     </div>
 
