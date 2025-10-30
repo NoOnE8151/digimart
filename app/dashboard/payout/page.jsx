@@ -35,12 +35,12 @@ const Payout = () => {
   }, [subMerchant])
 
   const handleKYC = async () => {
-    const res = await fetch('/api/razorpay/getOnboardingLink', {
+    const res = await fetch('/api/razorpay/kycLink', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ accountId: subMerchant.accountId })
+      body: JSON.stringify({ account_id: subMerchant.accountId })
     })
     const r = await res.json();
     console.log("onboarding url fetched: ", r);
@@ -55,7 +55,8 @@ const Payout = () => {
         <span className='text-lg font-semibold'>Total Earnings this month</span>
         <span className='text-3xl font-bold'>₹0.00</span>
         </div>
-        {!subMerchant && !isSubMerchantFetching && <button onClick={() => setIsOnboardFormOpen(true)} className='bg-element text-white font-semibold max-h-[3rem] px-5 rounded-xl cursor-pointer'>Link Account</button>}
+        {!subMerchant && !isSubMerchantFetching && <button onClick={() => setIsOnboardFormOpen(true)} className='bg-element text-white font-semibold max-h-[3rem] px-5 rounded-xl cursor-pointer hover:bg-element-hover active:bg-element-active'>Link Account</button>}
+        {subMerchant && !isSubMerchantFetching && <button onClick={handleKYC} className='bg-element text-white font-semibold max-h-[3rem] px-5 rounded-xl cursor-pointer hover:bg-element-hover active:bg-element-active'>Complete KYC</button>}
         
       </div>
         </div>
