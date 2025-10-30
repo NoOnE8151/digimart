@@ -219,10 +219,10 @@ export default function Home() {
 </section>
       </main>
       <footer className="w-full bg-[#0A0F1C] text-white py-12 mt-20">
-  <div className="w-[90%] mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+  <div className="w-[90%] mx-auto grid grid-cols-1 md:grid-cols-5 gap-10">
     
     {/* Brand Info */}
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 md:col-span-2">
       <h2 className="text-2xl font-bold">Digimart</h2>
       <p className="text-sm text-gray-400 leading-relaxed">
         A simple way to sell your digital creations online. 
@@ -238,10 +238,10 @@ export default function Home() {
         <li><a href="#pricing">Pricing</a></li>
         <li><a href="#features">Features</a></li>
         <SignInButton>
-        <li><button>Login</button></li>
+          <li><button>Login</button></li>
         </SignInButton>
         <SignUpButton>
-        <li><button>Register</button></li>
+          <li><button>Register</button></li>
         </SignUpButton>
       </ul>
     </div>
@@ -255,14 +255,28 @@ export default function Home() {
       </ul>
     </div>
 
-
-
+    {/* Contact Us */}
+    <div>
+      <h3 className="text-lg font-semibold mb-3">Contact Us</h3>
+      <ul className="flex flex-col gap-2 text-gray-400 text-sm">
+        <li>Email: <a href="mailto:digimartcontactus@gmail.com" className="hover:text-blue-400">digimartcontactus@gmail.com</a></li>
+        <li><a href="/contact" className="hover:text-blue-400 underline">Go to Contact Page</a></li>
+      </ul>
+    </div>
   </div>
 
   <div className="border-t border-gray-700 mt-10 pt-5 text-center text-gray-500 text-sm">
-    © {new Date().getFullYear()} Digimart. All rights reserved by <a className="font-semibold underline hover:text-blue-900" href="https://www.instagram.com/codeconquests_?igsh=MTE1cTZtZzVtMWg1ZA== " target="_blank">@codeConquests_</a>
+    © {new Date().getFullYear()} Digimart. All rights reserved by 
+    <a 
+      className="font-semibold underline hover:text-blue-900 ml-1" 
+      href="https://www.instagram.com/codeconquests_?igsh=MTE1cTZtZzVtMWg1ZA==" 
+      target="_blank"
+    >
+      @codeConquests_
+    </a>
   </div>
 </footer>
+
 
     </div>
   );
