@@ -40,14 +40,15 @@ export default function Home() {
           </SignedOut>
         </div>
 
-        <button className="lg:hidden">
-          <Menu />
-        </button>
+        <SignInButton>
+          <button className="bg-element px-5 py-2 rounded-full text-white font-semibold hover:bg-element-hover active:bg-element-active">Login</button>
+        </SignInButton>
+
       </header>
 
       <main className="flex flex-col items-center justify-start relative w-full py-10 gap-10 lg:py-0 lg:justify-center">
-        <section id="hero" className="bg-[#CFE8FF] flex flex-col justify-center items-center w-[90%] rounded-2xl my-5 gap-10 max-h-[60em] pt-32 overflow-hidden">
-          <div className="flex flex-col lg:gap-7 gap-5 items-center justify-center lg:w-[70%] w-full px-4 text-center pt-32 pb-10">
+        <section id="hero" className="bg-[#CFE8FF] flex flex-col justify-center items-center w-[90%] rounded-2xl my-5 gap-10 md:max-h-[60em] pt-32 overflow-hidden">
+          <div className="flex flex-col lg:gap-7 gap-5 items-center justify-center lg:w-[70%] w-full px-4 text-center md:pt-32 pb-10">
             <h1 className="lg:text-6xl text-3xl md:text-5xl font-bold leading-tight">
               Turn your creativity into income in minutes.
             </h1>
@@ -68,23 +69,23 @@ export default function Home() {
           />
         </section>
 
-        <section id="features" className="w-[90%] flex flex-col items-center gap-10">
+        <section id="features" className="w-[90%] flex flex-col md:items-center gap-10">
           <div className="flex flex-col justify-center items-center gap-3 py-10">
-            <h2 className="font-bold text-5xl">All the features you need</h2>
-            <p className="text-lg text-muted-foreground">
+            <h2 className="font-bold text-3xl md:text-5xl">All the features you need</h2>
+            <p className="text-sm md:text-lg text-muted-foreground">
               Build a store and start selling your products in minutes.
             </p>
           </div>
 
-          <div className="bg-[#CFE8FF] rounded-xl flex justify-center h-[50rem] w-full p-5">
-            <div className="w-1/2 flex flex-col justify-between px-10">
+          <div className="bg-[#CFE8FF] rounded-xl flex md:flex-row flex-col justify-center md:h-[50rem] w-full p-5">
+            <div className="md:w-1/2 flex flex-col justify-between gap-10 md:px-10">
 
             <div className="flex flex-col gap-5">
-              <h2 className="text-5xl font-bold p-5">
-                Sell Digital Products For Free In Digimart
+              <h2 className="text-2xl md:text-5xl font-bold md:p-5 px-3">
+                Sell Digital Products <span className="hidden">For Free In Digimart</span>
               </h2>
 
-              <p className="text-lg text-foreground px-5 font-semibold">
+              <p className="md:text-lg text-foreground px-3 md:px-5 font-semibold">
                 Start earning instantly without paying monthly fees or setup
                 costs. DigiMart lets creators sell eBooks, courses, templates,
                 or any digital file directly with{" "}
@@ -93,9 +94,24 @@ export default function Home() {
               </p>
             </div>
 
+            <div className="bg-[#60a8eb] h-[20rem] rounded-xl overflow-hidden px-10 py-5 w-[100%]">
+  <div className="scroll-wrapper w-full">
+    <div className="scroll-container w-full flex items-center">
+      <img src="/assets/landing page/dummy products/product1.png" alt="dummy product" className="w-[75vw] rounded-lg shadow-2xl" />
+      <img src="/assets/landing page/dummy products/product2.png" alt="dummy product" className="w-[75vw] rounded-lg shadow-2xl rotate" />
+      <img src="/assets/landing page/dummy products/product3.png" alt="dummy product" className="w-[75vw] rounded-lg shadow-2xl" />
+      
+      {/* Duplicate images for seamless loop */}
+      <img src="/assets/landing page/dummy products/product1.png" alt="dummy product" className="w-[75vw] rounded-lg shadow-2xl" />
+      <img src="/assets/landing page/dummy products/product2.png" alt="dummy product" className="w-[75vw] rounded-lg shadow-2xl rotate" />
+      <img src="/assets/landing page/dummy products/product3.png" alt="dummy product" className="w-[75vw] rounded-lg shadow-2xl" />
+    </div>
+  </div>
+</div>
+
               <div className="pb-10">
 
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid md:grid-cols-2 gap-5">
                 <div>
                   <h3 className="text-xl font-semibold">Seamless Payment</h3>
                   <p>Receive your earnings to your bank account within a day no thresholds.</p>
@@ -120,7 +136,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="w-1/2 bg-[#60a8eb] h-full rounded-xl overflow-hidden grid grid-cols-2 gap-5 px-10 py-5 justify-items-center">
+            <div className="w-1/2 bg-[#60a8eb] h-full rounded-xl overflow-hidden md:grid grid-cols-2 gap-5 px-10 py-5 hidden justify-items-center">
             <img src="/assets/landing page/dummy products/product1.png" alt="dummy product" className="w-[95%] rounded-lg shadow-2xl rotate-3 translate-y-16" />
             <img src="/assets/landing page/dummy products/product2.png" alt="dummy product" className="w-[97%] rounded-lg shadow-2xl rotate-[-3deg] translate-y-5" />
             <img src="/assets/landing page/dummy products/product3.png" alt="dummy product" className="w-full rounded-lg shadow-2xl rotate-[-3deg] translate-x-[135px] translate-y-5" />
@@ -130,7 +146,7 @@ export default function Home() {
 
         <section id="sell" className='w-[90%] mx-auto flex flex-col items-center gap-10 py-5'>
   <div className='text-center'>
-    <h2 className='text-5xl font-bold mb-3'>How DigiMart Works</h2>
+    <h2 className='text-3xl md:text-5xl font-bold mb-3'>How DigiMart Works</h2>
     <p className='text-lg text-muted-foreground'>
       From idea to income in just a few clicks.
     </p>
@@ -164,9 +180,9 @@ export default function Home() {
 </section>
 
 <section id="pricing" className='w-[90%] mx-auto flex flex-col items-center gap-10 py-20'>
-  <div className='text-center'>
-    <h2 className='text-5xl font-bold mb-3'>Simple & Transparent Pricing</h2>
-    <p className='text-lg text-muted-foreground'>
+  <div className='md:text-center'>
+    <h2 className='text-3xl md:text-5xl font-bold mb-3'>Simple & Transparent Pricing</h2>
+    <p className='text-sm md:text-lg text-muted-foreground'>
       Start selling for free. Pay only a small commission when you earn — nothing else.
     </p>
   </div>
@@ -189,10 +205,10 @@ export default function Home() {
 
     <div className='md:w-1/2 flex flex-col items-center justify-center mt-10 md:mt-0'>
       <div className='bg-white rounded-2xl p-10 w-full text-center shadow'>
-        <h4 className='text-4xl font-bold mb-3'>10% <span className='text-lg font-normal text-muted-foreground'>per sale</span></h4>
+        <h4 className='text-2xl md:text-4xl font-bold mb-3'>10% <span className='text-sm md:text-lg font-normal text-muted-foreground'>per sale</span></h4>
         <p className='text-muted-foreground mb-6'>No earnings? No fees. You only pay when you sell.</p>
         <SignUpButton>
-        <button className='bg-blue-600 cursor-pointer text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition'>
+        <button className='bg-blue-600 cursor-pointer text-sm md:text-lg text-white px-3 md:px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition'>
           Start Selling for Free
         </button>
         </SignUpButton>
@@ -200,15 +216,15 @@ export default function Home() {
     </div>
   </div>
 
-  <p className='text-sm text-muted-foreground text-center w-[80%] md:w-[60%]'>
+  <p className='md:text-sm text-xs text-muted-foreground md:text-center w-[80%] md:w-[60%]'>
     *A 10% platform fee is automatically deducted from each successful transaction. 
     Payments are processed securely through Razorpay and settled to your linked bank account as per gateway timelines.
   </p>
 </section>
 
-<section className="w-[90%] mx-auto text-center py-20 flex flex-col items-center justify-center gap-6 bg-[#EAF4FF] rounded-2xl">
-  <h2 className="text-5xl font-bold">Start Selling Your Digital Products Today</h2>
-  <p className="text-lg text-muted-foreground max-w-2xl">
+<section className="w-[90%] mx-auto text-center py-10 md:py-20 flex flex-col items-center justify-center gap-6 bg-[#EAF4FF] rounded-2xl px-3">
+  <h2 className="text-3xl md:text-5xl font-bold">Start Selling Your Digital Products Today</h2>
+  <p className="text-sm md:text-lg text-muted-foreground max-w-2xl">
     Join a growing creator community. Upload your digital products, share your link, and earn effortlessly — 
     all with zero setup cost.
   </p>
@@ -235,7 +251,7 @@ export default function Home() {
     {/* Quick Links */}
     <div>
       <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
-      <ul className="flex flex-col gap-2 text-gray-400 text-sm">
+      <ul className="grid grid-cols-2 md:flex flex-col gap-2 text-gray-400 text-sm">
         <li><a href="#hero">Home</a></li>
         <li><a href="#pricing">Pricing</a></li>
         <li><a href="#features">Features</a></li>

@@ -283,3 +283,25 @@
   0% { transform: translate(0%); }
   100% { transform: translate(25%);}
 }
+
+
+/* marque animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.scroll-container {
+  display: flex;
+  gap: 1.25rem;
+  animation: scroll 20s linear infinite;
+  width: max-content;
+}
+
+.scroll-container:hover {
+  animation-play-state: paused;
+}
