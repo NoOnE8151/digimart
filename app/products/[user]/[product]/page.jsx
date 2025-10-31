@@ -238,16 +238,16 @@ const Product = () => {
       <Header />
 
       <main className="w-[100vw] min-h-[100vh] flex flex-col gap-10 items-center">
-        <div className="flex items-center gap-10 w-full border-y-2 border-y-border px-[5rem] py-[1rem] justify-between">
-          <div className="flex items-center gap-5">
+        <div className="flex items-center gap-10 w-full border-y-2 border-y-border px-5 md:px-[5rem] py-3 md:py-[1rem] justify-between">
+          <div className="flex items-center gap-5 w-[80%]">
             <img
               src={shop?.image?.url}
               alt="shop logo"
-              className="w-[5rem] rounded-full"
+              className="w-[3em] md:w-[5rem] rounded-full"
             />
-            <nav className="flex items-center gap-5 text-muted-foreground">
-              <a href={`/${merchant}`}>view shop</a>
-              <a href="#">e books</a>
+            <nav className="flex items-center gap-5 text-muted-foreground overflow-auto text-sm">
+              <a href={`/${merchant}`}>view&nbsp;shop</a>
+              <a href="#">e&nbsp;books</a>
               <a href="#">videos</a>
               <a href="#">images</a>
               <a href="#">documents</a>
@@ -267,15 +267,15 @@ const Product = () => {
           </div>
         </div>
 
-        <section className="bg-muted w-[80%] min-h-[40%] p-10 flex items-stretch gap-19">
-          <div className="w-1/2">
+        <section className="bg-muted w-[80%] min-h-[40%] p-5 md:p-10 flex md:flex-row flex-col items-center md:items-stretch gap-19 rounded-lg">
+          <div className="w-full md:w-1/2">
             <img
               src={product?.thumbnail?.url}
               alt="featured image"
-              className="w-full"
+              className="w-full rounded-lg md:rounded-none"
             />
           </div>
-          <div className="h-full flex flex-col gap-5 px-14 w-1/2">
+          <div className="h-full flex flex-col gap-5 md:px-14 w-full md:w-1/2">
             <h1 className="text-2xl capitalize font-semibold">
               {product.title}
             </h1>
