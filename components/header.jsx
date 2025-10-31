@@ -15,7 +15,7 @@ const Header = () => {
   };
 
   return (
-    <header className="px-7 py-3 flex items-center gap-3 justify-between">
+    <header className="md:px-7 py-3 flex items-center gap-5 justify-between w-[100vw]">
       <a href="/dashboard" className="flex items-center">
         <img src="/assets/logo/logo.png" alt="logo" className="w-[4rem]" />
         <h1 className="text-2xl font-semibold">Digimart</h1>

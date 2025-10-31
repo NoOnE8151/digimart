@@ -25,7 +25,7 @@ const MarketAll = () => {
   return (
     <>
     <h1 className='text-2xl p-5'>Featured Products</h1>
-    <div className='p-5 grid grid-cols-4 gap-5'>
+    <div className='md:p-5 p-3 grid md:grid-cols-4 grid-cols-1 gap-5'>
       {
         products.map((product, idx) => {
           return <ProductCard key={product._id} product={product} />

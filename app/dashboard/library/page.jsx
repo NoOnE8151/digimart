@@ -71,7 +71,7 @@ const Library = () => {
         {libraryItems.length === 0 && <div className='py-20 text-lg text-muted-foreground'>
           Nothing to show here
         </div> }
-       <div className="gap-5 grid grid-cols-4">
+       <div className="gap-5 grid md:grid-cols-4 grid-cols-1 px-5">
   {libraryItems.map((product) => {
     return (
       <div

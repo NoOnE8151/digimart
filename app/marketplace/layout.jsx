@@ -16,7 +16,7 @@ const MarketplaceLayout = ({ children, params }) => {
   return (
     <div className='flex flex-col gap-5 px-5 py-3'>
       <Header />
-      <main className='px-10'>
+      <main className='md:px-10'>
         <nav className='px-5'>
           <ul className='flex items-center list-none gap-5 md:text-lg text-muted-foreground'>
             {categories.map((cat) => (
