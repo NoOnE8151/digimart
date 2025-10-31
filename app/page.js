@@ -269,13 +269,13 @@ export default function Home() {
 
   <div className="border-t border-gray-700 mt-10 pt-5 text-center text-gray-500 text-sm">
     © {new Date().getFullYear()} Digimart. All rights reserved by 
-    <a 
+    <Link 
       className="font-semibold underline hover:text-blue-900 ml-1" 
       href="https://www.instagram.com/codeconquests_?igsh=MTE1cTZtZzVtMWg1ZA==" 
       target="_blank"
     >
       @codeConquests_
-    </a>
+    </Link>
   </div>
 </footer>
 
