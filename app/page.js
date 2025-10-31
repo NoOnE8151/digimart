@@ -20,9 +20,9 @@ export default function Home() {
           <h1 className="font-bold text-xl ">Digimart</h1>
         </div>
         <nav className="hidden lg:flex items-center gap-5 font-semibold">
-          <a href="#features">Features</a>
-          <a href="#sell">Sell</a>
-          <a href="#pricing">Pricing</a>
+          <Link href="#features">Features</Link>
+          <Link href="#sell">Sell</Link>
+          <Link href="#pricing">Pricing</Link>
         </nav>
 
         <div className="lg:flex hidden items-center gap-5 w-[15%]">
