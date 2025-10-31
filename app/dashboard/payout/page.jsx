@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import OnboardingForm from '@/components/dashboard/payout/onboard/form';
 import { useUser } from '@clerk/nextjs';
+import KYCPending from '@/components/dashboard/payout/kycPending';
 
 const Payout = () => {
   const [isOnboardFormOpen, setIsOnboardFormOpen] = useState(false);
@@ -34,16 +35,19 @@ const Payout = () => {
     console.log('submerchant is here', subMerchant)
   }, [subMerchant])
 
+  const [kycApprove, setKycApprove] = useState(false);
+
   const handleKYC = async () => {
-    const res = await fetch('/api/razorpay/kycLink', {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ account_id: subMerchant.accountId })
-    })
-    const r = await res.json();
-    console.log("onboarding url fetched: ", r);
+    setKycApprove(true);
+    // const res = await fetch('/api/razorpay/kycLink', {
+    //   method: "POST",
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({ account_id: subMerchant.accountId })
+    // })
+    // const r = await res.json();
+    // console.log("onboarding url fetched: ", r);
   }
   
   return (
@@ -57,9 +61,10 @@ const Payout = () => {
         </div>
         {!subMerchant && !isSubMerchantFetching && <button onClick={() => setIsOnboardFormOpen(true)} className='bg-element text-white font-semibold max-h-[3rem] px-5 rounded-xl cursor-pointer hover:bg-element-hover active:bg-element-active'>Link Account</button>}
         {subMerchant && !isSubMerchantFetching && <button onClick={handleKYC} className='bg-element text-white font-semibold max-h-[3rem] px-5 rounded-xl cursor-pointer hover:bg-element-hover active:bg-element-active'>Complete KYC</button>}
-        
       </div>
         </div>
+
+        {kycApprove && <KYCPending setKycApprove={setKycApprove} />}
 
         {isOnboardFormOpen && <OnboardingForm setIsOnboardFormOpen={setIsOnboardFormOpen} />}
     </div>
