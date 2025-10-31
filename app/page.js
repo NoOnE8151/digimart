@@ -262,20 +262,20 @@ export default function Home() {
       <h3 className="text-lg font-semibold mb-3">Contact Us</h3>
       <ul className="flex flex-col gap-2 text-gray-400 text-sm">
         <li>Email: <a href="mailto:digimartcontactus@gmail.com" className="hover:text-blue-400">digimartcontactus@gmail.com</a></li>
-        <li><a href="/contact" className="hover:text-blue-400 underline">Go to Contact Page</a></li>
+        <li><Link href="/contact" className="hover:text-blue-400 underline">Go to Contact Page</Link></li>
       </ul>
     </div>
   </div>
 
   <div className="border-t border-gray-700 mt-10 pt-5 text-center text-gray-500 text-sm">
     © {new Date().getFullYear()} Digimart. All rights reserved by 
-    <Link 
+    <a 
       className="font-semibold underline hover:text-blue-900 ml-1" 
       href="https://www.instagram.com/codeconquests_?igsh=MTE1cTZtZzVtMWg1ZA==" 
       target="_blank"
     >
       @codeConquests_
-    </Link>
+    </a>
   </div>
 </footer>
 
