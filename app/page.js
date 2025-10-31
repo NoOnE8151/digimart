@@ -20,9 +20,9 @@ export default function Home() {
           <h1 className="font-bold text-xl ">Digimart</h1>
         </div>
         <nav className="hidden lg:flex items-center gap-5 font-semibold">
-          <div>Features</div>
-          <div>Sell</div>
-          <div>Pricing</div>
+          <a href="#features">Features</a>
+          <a href="#sell">Sell</a>
+          <a href="#pricing">Pricing</a>
         </nav>
 
         <div className="lg:flex hidden items-center gap-5 w-[15%]">
@@ -128,7 +128,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className='w-[90%] mx-auto flex flex-col items-center gap-10 py-5'>
+        <section id="sell" className='w-[90%] mx-auto flex flex-col items-center gap-10 py-5'>
   <div className='text-center'>
     <h2 className='text-5xl font-bold mb-3'>How DigiMart Works</h2>
     <p className='text-lg text-muted-foreground'>
@@ -191,9 +191,11 @@ export default function Home() {
       <div className='bg-white rounded-2xl p-10 w-full text-center shadow'>
         <h4 className='text-4xl font-bold mb-3'>10% <span className='text-lg font-normal text-muted-foreground'>per sale</span></h4>
         <p className='text-muted-foreground mb-6'>No earnings? No fees. You only pay when you sell.</p>
-        <button className='bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition'>
+        <SignUpButton>
+        <button className='bg-blue-600 cursor-pointer text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition'>
           Start Selling for Free
         </button>
+        </SignUpButton>
       </div>
     </div>
   </div>
@@ -211,7 +213,7 @@ export default function Home() {
     all with zero setup cost.
   </p>
   <SignUpButton>
-  <button className="mt-6 px-8 py-4 bg-[#007BFF] hover:bg-[#0066d3] transition-all text-white font-semibold rounded-xl text-lg">
+  <button className="mt-6 px-8 py-4 bg-[#007BFF] hover:bg-[#0066d3] cursor-pointer transition-all text-white font-semibold rounded-xl text-lg">
     Get Started for Free
   </button>
   </SignUpButton>
