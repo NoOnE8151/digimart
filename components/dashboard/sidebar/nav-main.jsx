@@ -25,6 +25,11 @@ export function NavMain({
   items
 }) { 
   const { toggleSidebar } = useSidebar();
+  const handleMenuCloseForMobile = () => {
+    if(window.innerWidth < 768) {
+      toggleSidebar();
+    }
+  }
   return (
     <SidebarGroup className={'bg-background'}>
       <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
@@ -35,7 +40,7 @@ export function NavMain({
               <SidebarMenuButton asChild tooltip={item.title}>
                 <Link href={item.url}>
                   <item.icon />
-                  <span onClick={toggleSidebar}>{item.title}</span>
+                  <span onClick={handleMenuCloseForMobile}>{item.title}</span>
                 </Link>
               </SidebarMenuButton>
               {item.items?.length ? (
