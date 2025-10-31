@@ -14,7 +14,7 @@ export function NavSecondary({
   ...props
 }) {
   return (
-    <SidebarGroup {...props}>
+    <SidebarGroup {...props} className="bg-background bottom-[10px] h-full py-14">
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (

@@ -19,21 +19,23 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
+import { useSidebar } from "@/components/ui/sidebar";
 
 export function NavMain({
   items
-}) {
+}) { 
+  const { toggleSidebar } = useSidebar();
   return (
-    <SidebarGroup>
+    <SidebarGroup className={'bg-background'}>
       <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
-      <SidebarMenu>
+      <SidebarMenu className={'bg-background'}>
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem>
               <SidebarMenuButton asChild tooltip={item.title}>
                 <Link href={item.url}>
                   <item.icon />
-                  <span>{item.title}</span>
+                  <span onClick={toggleSidebar}>{item.title}</span>
                 </Link>
               </SidebarMenuButton>
               {item.items?.length ? (

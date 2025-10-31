@@ -90,7 +90,7 @@ export function AppSidebar(props) {
     <Sidebar
       className="top-(--header-height) h-[calc(100svh-var(--header-height))]!"
       {...props}>
-      <SidebarHeader>
+      <SidebarHeader className={'bg-background'}>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>

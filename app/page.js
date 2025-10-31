@@ -41,7 +41,7 @@ export default function Home() {
         </div>
 
         <SignInButton>
-          <button className="bg-element px-5 py-2 rounded-full text-white font-semibold hover:bg-element-hover active:bg-element-active">Login</button>
+          <button className="bg-element px-5 py-2 rounded-full text-white font-semibold hover:bg-element-hover active:bg-element-active md:hidden">Login</button>
         </SignInButton>
 
       </header>

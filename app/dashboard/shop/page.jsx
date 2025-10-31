@@ -135,7 +135,7 @@ const [isProductLoading, setIsProductLoading] = useState(true);
     {isProductLoading && <div className="py-[10rem]"><Loader text={'Loading Products...'} /></div>}
   </div>
 
-  {isProductAdding && <div className="fixed bg-black/50 top-0 bottom-0 right-0 w-[100vw] min-h-[100vh] z-50 left-0 overflow-auto scrollbarHide"><AddProductForm setIsProductAdding={setIsProductAdding} fetchProductList={fetchProductList} handlePopup={handlePopup} /> </div>}
+  {isProductAdding && <div className="fixed bg-black/50 top-0 bottom-0 right-0 z-50 left-0 overflow-auto flex justify-center scrollbarHide"><AddProductForm setIsProductAdding={setIsProductAdding} fetchProductList={fetchProductList} handlePopup={handlePopup} /> </div>}
   {isProductEditing && <div className="fixed bg-black/50 top-0 bottom-0 right-0 w-[100vw] min-h-[100vh] z-50 left-0 overflow-auto scrollbarHide"> <EditProductForm setIsProductEditing={setIsProductEditing} fetchProductList={fetchProductList} productData={productToEdit} handlePopup={handlePopup} /></div>}
 
    {showPopup && <Popup text={popupText} />}

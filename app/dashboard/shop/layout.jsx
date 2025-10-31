@@ -254,9 +254,9 @@ const ShopLayout = ({ children }) => {
     );
   }
   return (
-    <div className="grid justify-items-center py-[3rem] h-full relative">
+    <div className="grid justify-items-center py-[3rem] h-full w-[100vw] relative">
       {hasUnsavedChanges && (
-        <div className="flex items-center justify-between h-[5rem] w-full px-7 bg-muted">
+        <div className="flex items-center gap-3 py-5 justify-between h-[5rem] w-full px-5 bg-muted">
           <p>
             You have unsaved changes, please click on save button to save
             changes{" "}
@@ -271,7 +271,7 @@ const ShopLayout = ({ children }) => {
           </button>
         </div>
       )}
-      <div className="w-[100%] h-[80%] relative">
+      <div className="w-[100%] h-[40%] md:h-[80%] relative">
         <div className="w-full h-[44%] bg-element relative">
           <div
             onClick={coverInputClick}
