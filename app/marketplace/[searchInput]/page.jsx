@@ -29,7 +29,7 @@ const Search = () => {
   return (
     <>
     <h1 className='text-2xl p-5'>Search results for <b>{searchInput}</b></h1>
-    <div className='p-5 grid grid-cols-4 gap-5'>
+    <div className='p-5 grid md:grid-cols-4 gap-5'>
       {
         products.map((product, idx) => {
           return <ProductCard key={product._id} product={product} />
