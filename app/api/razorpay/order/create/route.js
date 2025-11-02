@@ -2,9 +2,15 @@ import { NextResponse } from "next/server";
 import razorpay from "@/library/razorpay";
 
 export async function POST(request) {
+
   try {
     const { cartItems } = await request.json();
-    console.log('recived cart items', cartItems);
+    
+    console.log('Raw cartItems:', cartItems);
+for (const item of cartItems) {
+  console.log('Item:', item);
+  console.log('Product price:', item?.product?.price, 'Merchant:', item?.product?.merchant);
+}
 
     // Validate input
     if (!Array.isArray(cartItems) || cartItems.length === 0) {
@@ -18,7 +24,14 @@ export async function POST(request) {
     const merchantTransfers = {};
 
     for (const item of cartItems) {
-      const price = item?.product?.price;
+      const price = Number(item?.product?.price);
+if (isNaN(price) || price <= 0) {
+  return NextResponse.json({
+    success: false,
+    message: `Invalid price for product ${item?.product?.name || ''}`,
+  });
+}
+      
       const merchantId = item?.product?.merchant;
 
       if (!price || price <= 0 || !merchantId) {
