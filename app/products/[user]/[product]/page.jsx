@@ -1,0 +1,348 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import Header from "@/components/header";
+import Link from "next/link";
+import { User, ShoppingBag, Check } from "lucide-react";
+import Cart from "@/components/shop/cart";
+import { useUser } from "@clerk/nextjs";
+import PaymentSuccess from "@/components/shop/payment/success";
+
+const Product = () => {
+  const { user } = useUser();
+  const params = useParams();
+  const productId = params.product;
+  const merchant = params.user;
+
+  const [product, setProduct] = useState({});
+  const fetchProduct = async () => {
+    const res = await fetch("/api/product/get", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ productId }),
+    });
+    const r = await res.json();
+    setProduct(r.product);
+  };
+
+  const [shop, setShop] = useState({});
+  const fetchShop = async () => {
+    const res = await fetch("/api/shop/getShop", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username: params.user }),
+    });
+    const r = await res.json();
+    setShop(r.shopData);
+  };
+
+  useEffect(() => {
+    fetchProduct();
+    fetchShop();
+  }, []);
+
+  useEffect(() => {
+    console.log("product is set", product);
+  }, [product]);
+
+  const handleAddToCart = async (product) => {
+    console.log(user.username, "is the username and its loaded");
+    const res = await fetch("/api/shop/cart/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...product, visitorName: user.username }),
+    });
+    const r = await res.json();
+    console.log(r.message, r.cart);
+    fetchProduct();
+    fetchCart(user.username);
+  };
+
+  //handling cart menu toggle
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCartClosing, setIsCartClosing] = useState(false);
+
+  //fetching cart items
+  //fetching cart items for users
+  const [cartItems, setCartItems] = useState([]);
+  const fetchCart = async (username) => {
+    const res = await fetch("/api/shop/cart/get", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username }),
+    });
+    const r = await res.json();
+    console.log("cart items fetched: ", r);
+    setCartItems(r.cart);
+  };
+
+  //calculate total price of all items in cart
+  const getTotalPrice = () => {
+    return cartItems?.reduce((sum, item) => sum + item.price, 0) || 0;
+  };
+
+  useEffect(() => {
+    fetchCart(user?.username);
+  }, [user]);
+
+  //getting submerchant (razorpay onboared)
+  const [subMerchant, setSubmerchant] = useState({});
+
+  const getSubmerchant = async () => {
+    const res = await fetch("/api/razorpay/getSubMerchant", {
+      method: "POST",
+      headers: {
+        ContentType: "application/json",
+      },
+      body: JSON.stringify({ username: user.username }),
+    });
+    const r = await res.json();
+    setSubmerchant(r.subMerchant);
+  };
+
+  useEffect(() => {
+    if (user) {
+      getSubmerchant();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    console.log(subMerchant);
+  }, [subMerchant]);
+
+  //handling purchase
+  const [showPaymentFailedError, setShowPaymentFailed] = useState(false);
+  const [showPaymentSuccess, setShowPaymentSuccess] = useState(false);
+
+  const [isPaymentPending, setIsPaymentPending] = useState(false);
+  const handlePurchase = async () => {
+    setIsPaymentPending(true);
+    const data = await handleCreateOrder();
+    const options = {
+      key: process.env.NEXT_PUBLIC_RAZORPAY_GATEWAY_KEY,
+      amount: data.amount,
+      currency: data.currency,
+      name: "Digimart",
+      description: "Order Payment",
+      order_id: data.orderId,
+      handler: async function (response) {
+        const res = await fetch("/api/razorpay/verifyPayment", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          }),
+        });
+        const r = await res.json();
+
+        if (!r.success) {
+          setShowPaymentFailed(true);
+          return;
+        }
+
+        //adding product to user's library after successful purchase
+        const libResponse = await fetch("/api/library/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ products: product }),
+        });
+
+        const jsonRes = await libResponse.json();
+        console.log("product added to library", jsonRes);
+
+        //store user earnings to database if payments verification success
+        const earningsRes = await fetch("/api/earnings/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            buyer: user.username,
+            merchant,
+            earnings: product.price - product.price * 0.1,
+          }),
+        });
+        const earningsR = await earningsRes.json();
+        console.log("earnings stored", earningsR);
+
+        //store buyer to merchant's customer list
+        const customerRes = await fetch("/api/customer/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ merchant, buyer: user.username }),
+        });
+        const customerR = await customerRes.json();
+        console.log("customer strored", customerR);
+
+        //update sale count of purchased product
+        const saleRes = await fetch("/api/product/updateSaleCount", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ productId: product._id, quantity: 1 }),
+        });
+        const saleR = await saleRes.json();
+        console.log("product's sale count updated", saleR);
+
+        setShowPaymentSuccess(true);
+        setIsPaymentPending(false);
+        return;
+      },
+      theme: { color: "#3399cc" },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
+
+  const handleCreateOrder = async () => {
+    const cartItems = [
+      {
+        product: {
+          price: product.price,          
+          merchant: subMerchant.accountId
+        }
+      }
+    ];
+    const res = await fetch("/api/razorpay/order/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ cartItems }),
+    });
+    const r = await res.json();
+    console.log("order created", r);
+    return r;
+  };
+
+  return (
+    <div>
+      <Header />
+
+      <main className="w-[100vw] min-h-[100vh] flex flex-col gap-10 items-center">
+        <div className="flex items-center gap-10 w-full border-y-2 border-y-border px-5 md:px-[5rem] py-3 md:py-[1rem] justify-between">
+          <div className="flex items-center gap-5 w-[80%]">
+            <img
+              src={shop?.image?.url}
+              alt="shop logo"
+              className="w-[3em] md:w-[5rem] rounded-full"
+            />
+            <nav className="flex items-center gap-5 text-muted-foreground overflow-auto text-sm">
+              <a href={`/${merchant}`}>view&nbsp;shop</a>
+              <a href="#">e&nbsp;books</a>
+              <a href="#">videos</a>
+              <a href="#">images</a>
+              <a href="#">documents</a>
+            </nav>
+          </div>
+
+          <div className=" flex items-center gap-3 text-muted-foreground">
+            {/* <Link href={"#"}>
+              <User />
+            </Link> */}
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="cursor-pointer"
+            >
+              <ShoppingBag />
+            </button>
+          </div>
+        </div>
+
+        <section className="bg-muted w-[80%] min-h-[40%] p-5 md:p-10 flex md:flex-row flex-col items-center md:items-stretch gap-19 rounded-lg">
+          <div className="w-full md:w-1/2">
+            <img
+              src={product?.thumbnail?.url}
+              alt="featured image"
+              className="w-full rounded-lg md:rounded-none"
+            />
+          </div>
+          <div className="h-full flex flex-col gap-5 md:px-14 w-full md:w-1/2">
+            <h1 className="text-2xl capitalize font-semibold">
+              {product.title}
+            </h1>
+            <div className="text-lg font-semibold">₹{product.price}</div>
+            <div className="flex flex-col items-start gap-3">
+              <button
+                disabled={isPaymentPending}
+                onClick={handlePurchase}
+                className={`bg-element text-white px-5 py-4 w-full rounded hover:bg-element-hover font-semibold text-lg ${
+                  isPaymentPending
+                    ? "cursor-not-allowed bg-element/90"
+                    : "cursor-pointer"
+                }`}
+              >
+                Buy now
+              </button>
+              <button
+                disabled={product?.cart?.includes(user?.username)}
+                onClick={() => handleAddToCart(product)}
+                className="border-2 border-element text-element px-5 py-3 w-full rounded cursor-pointer hover:bg-background font-semibold text-lg flex items-center justify-center gap-3"
+              >
+                {Array.isArray(product?.cart) &&
+                product.cart.includes(user?.username) ? (
+                  <>
+                    Added to cart <Check />
+                  </>
+                ) : (
+                  "Add to cart"
+                )}
+              </button>
+            </div>
+            <p>{product.description}</p>
+          </div>
+        </section>
+
+        {isCartOpen && (
+          <div
+            className={`bg-black/50 fixed top-0 left-0 right-0 bottom-0 ${
+              isCartClosing ? "" : "fade-in"
+            } ${isCartClosing ? "fade-out" : ""}`}
+          >
+            <div
+              className={` ${isCartClosing ? "" : "slide-left"} ${
+                isCartClosing ? "slide-right" : ""
+              } h-full`}
+            >
+              <Cart
+                setIsCartOpen={setIsCartOpen}
+                setIsCartClosing={setIsCartClosing}
+                cartItems={cartItems}
+                getTotalPrice={getTotalPrice}
+                fetchCart={fetchCart}
+                fetchProduct={fetchProduct}
+              />
+            </div>
+          </div>
+        )}
+
+        {showPaymentSuccess && (
+          <PaymentSuccess
+            product={product}
+            setShowPaymentSuccess={setShowPaymentSuccess}
+          />
+        )}
+      </main>
+    </div>
+  );
+};
+
+export default Product;
