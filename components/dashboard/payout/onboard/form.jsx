@@ -65,58 +65,58 @@ const OnboardingForm = ({ setIsOnboardFormOpen }) => {
 
   const [isOnboarding, setIsOnboarding] = useState(false);
 
-const onboard = async (data) => {
-  setIsOnboarding(true);
-  setShowOnboardError(false);
-  
-  try {
-    const res = await fetch('/api/razorpay/onboard/createAccount', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        businessName: data.businessName,
-        contactName: data.contactName,
-        email: data.email,
-        phone: `+91${data.phone}`,
-        street1: data.street1,
-        street2: data.street2 || "",
-        city: data.city,
-        state: data.state,
-        postalCode: data.postal_code,
-      })
-    });
-
-    let r;
+  const onboard = async (data) => {
+    setIsOnboarding(true);
+    setShowOnboardError(false);
+    
     try {
-      r = await res.json();
-    } catch {
-      throw new Error("Response is not valid JSON");
-    }
+      const res = await fetch('/api/razorpay/onboard/createAccount', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          businessName: data.businessName,
+          contactName: data.contactName,
+          email: data.email,
+          phone: `+91${data.phone}`,
+          street1: data.street1,
+          street2: data.street2 || "",
+          city: data.city,
+          state: data.state,
+          postalCode: data.postal_code,
+        })
+      });
 
-    console.log("API Response:", r);
+      let r;
+      try {
+        r = await res.json();
+      } catch {
+        throw new Error("Response is not valid JSON");
+      }
 
-    if (!r.success) {
-      setOnboardError(r.message || "Failed to create account");
+      console.log("API Response:", r);
+
+      if (!r.success) {
+        setOnboardError(r.message || "Failed to create account");
+        setShowOnboardError(true);
+        return;
+      }
+
+      if (r.onboardingUrl) {
+        window.location.href = r.onboardingUrl;
+        return;
+      }
+
+      setOnboardError("Account created but onboarding link unavailable. Please contact support.");
       setShowOnboardError(true);
-      return;
+
+    } catch (error) {
+      console.error("Onboarding error:", error);
+      setOnboardError(error.message || "Network error. Please try again.");
+      setShowOnboardError(true);
+    } finally {
+      setIsOnboarding(false);
     }
-
-    if (r.onboardingUrl) {
-      window.location.href = r.onboardingUrl;
-      return;
-    }
-
-    setOnboardError("Account created but onboarding link unavailable. Please contact support.");
-    setShowOnboardError(true);
-
-  } catch (error) {
-    console.error("Onboarding error:", error);
-    setOnboardError(error.message || "Network error. Please try again.");
-    setShowOnboardError(true);
-  } finally {
-    setIsOnboarding(false);
-  }
-};
+  };
 
 
   const handleCompleteKYC = () => {
