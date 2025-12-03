@@ -97,14 +97,14 @@ export default function Home() {
             <div className="bg-[#60a8eb] h-[20rem] rounded-xl overflow-hidden px-10 py-5 w-[100%]">
   <div className="scroll-wrapper w-full">
     <div className="scroll-container w-full flex items-center">
-      <img src="/assets/landing page/dummy products/product1.png" alt="dummy product" className="w-[75vw] rounded-lg shadow-2xl" />
-      <img src="/assets/landing page/dummy products/product2.png" alt="dummy product" className="w-[75vw] rounded-lg shadow-2xl rotate" />
-      <img src="/assets/landing page/dummy products/product3.png" alt="dummy product" className="w-[75vw] rounded-lg shadow-2xl" />
+      <img src="/assets/landing page/dummy products/product1.png" alt="dummy product" className="w-1/3 rounded-lg shadow-2xl" />
+      <img src="/assets/landing page/dummy products/product2.png" alt="dummy product" className="w-1/3 rounded-lg shadow-2xl rotate" />
+      <img src="/assets/landing page/dummy products/product3.png" alt="dummy product" className="w-1/3 rounded-lg shadow-2xl" />
       
       {/* Duplicate images for seamless loop */}
-      <img src="/assets/landing page/dummy products/product1.png" alt="dummy product" className="w-[75vw] rounded-lg shadow-2xl" />
-      <img src="/assets/landing page/dummy products/product2.png" alt="dummy product" className="w-[75vw] rounded-lg shadow-2xl rotate" />
-      <img src="/assets/landing page/dummy products/product3.png" alt="dummy product" className="w-[75vw] rounded-lg shadow-2xl" />
+      <img src="/assets/landing page/dummy products/product1.png" alt="dummy product" className="w-1/3 rounded-lg shadow-2xl" />
+      <img src="/assets/landing page/dummy products/product2.png" alt="dummy product" className="w-1/3 rounded-lg shadow-2xl rotate" />
+      <img src="/assets/landing page/dummy products/product3.png" alt="dummy product" className="w-1/3 rounded-lg shadow-2xl" />
     </div>
   </div>
 </div>

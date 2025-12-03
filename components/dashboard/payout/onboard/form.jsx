@@ -101,13 +101,7 @@ const OnboardingForm = ({ setIsOnboardFormOpen }) => {
         return;
       }
 
-      if (r.onboardingUrl) {
-        window.location.href = r.onboardingUrl;
-        return;
-      }
-
-      setOnboardError("Account created but onboarding link unavailable. Please contact support.");
-      setShowOnboardError(true);
+      setShowOnboardSuccess(true);
 
     } catch (error) {
       console.error("Onboarding error:", error);
@@ -155,10 +149,10 @@ const OnboardingForm = ({ setIsOnboardFormOpen }) => {
             </label>
             <input
               type="text"
-              placeholder="Enter your full name"
+              placeholder="eg. DigiMart"
               className={`border-2 px-3 py-1 rounded-sm ${errors.businessName ? 'border-red-500' : ''}`}
               {...register('businessName', {
-                required: { value: true, message: 'please enter your full name' },
+                required: { value: true, message: 'please enter your business name' },
                 minLength: { value: 4, message: 'minimum length is 4 characters for name' },
                 maxLength: { value: 200, message: 'maximum length is 200 characters' }
               })}
@@ -169,14 +163,14 @@ const OnboardingForm = ({ setIsOnboardFormOpen }) => {
           {/* Contact Name */}
           <div className="flex flex-col gap-2">
             <label className="font-semibold text-lg">
-              Contact Name <span className="text-red-500">*</span>
+              Customer Facing Business Name <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
-              placeholder="Enter your contact name"
+              placeholder="eg. Lomash BookStore"
               className={`border-2 px-3 py-1 rounded-sm ${errors.contactName ? 'border-red-500' : ''}`}
               {...register('contactName', {
-                required: { value: true, message: 'please enter your contact name' },
+                required: { value: true, message: 'please enter your business name' },
                 minLength: { value: 4, message: 'minimum length is 4 characters for name' },
                 maxLength: { value: 200, message: 'maximum length is 200 characters' }
               })}
@@ -215,7 +209,7 @@ const OnboardingForm = ({ setIsOnboardFormOpen }) => {
             {errors.phone && <p className="text-red-500">{errors.phone.message}</p>}
           </div>
 
-          <h2 className="text-xl font-bold mt-4">Registered Address</h2>
+          <h2 className="text-xl font-bold mt-4">Business Address</h2>
 
           <div className="flex flex-col gap-2">
             <label>

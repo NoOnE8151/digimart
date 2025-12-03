@@ -290,16 +290,26 @@
   0% {
     transform: translateX(0);
   }
+  45% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(-100%);
+  }
+  95% {
+    transform: translateX(0);
+  }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(0);
   }
 }
 
 .scroll-container {
   display: flex;
-  gap: 1.25rem;
-  animation: scroll 20s linear infinite;
-  width: max-content;
+  animation: scroll 25s linear infinite;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
 }
 
 .scroll-container:hover {
